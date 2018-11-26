@@ -6,6 +6,7 @@
 package gerador.de.provas.aleatorias.presenter;
 
 import gerador.de.provas.aleatorias.model.BancoDeProvas;
+import gerador.de.provas.aleatorias.model.TemplateProperties;
 import gerador.de.provas.aleatorias.view.MainView;
 
 /**
@@ -16,8 +17,10 @@ public class MainPresenter {
 
     private MainView view;
     private BancoDeProvas bancoDeProvas;
+    private TemplateProperties properies;
 
-    public MainPresenter() {
+    public MainPresenter(TemplateProperties properies) {
+        this.properies = properies;
         view = new MainView();
         verificar_se_tem_banco();
 
@@ -39,6 +42,10 @@ public class MainPresenter {
         } else {
             view.getLocal_prova_label().setText("");
         }
+    }
+
+    void importarBancoDeProvas() {
+
     }
 
 }

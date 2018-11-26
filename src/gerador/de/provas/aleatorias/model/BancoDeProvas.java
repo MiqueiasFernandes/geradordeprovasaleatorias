@@ -12,9 +12,22 @@ package gerador.de.provas.aleatorias.model;
 public class BancoDeProvas {
 
     private String local;
+    private boolean alterado = false;
+
+    public BancoDeProvas(String local) {
+        this.local = local;
+    }
+
+    public void salvar() {
+        this.alterado = false;
+    }
 
     public String getLocal() {
         return local;
+    }
+
+    public boolean isAlterado() {
+        return alterado;
     }
 
 }
