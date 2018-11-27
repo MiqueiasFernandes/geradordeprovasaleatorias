@@ -59,7 +59,7 @@ public class Janela {
         return null;
     }
 
-    public static boolean showDialog(Component view, String titulo, String texto) {
+    public static boolean showDialogisYes(Component view, String titulo, String texto) {
         return JOptionPane.YES_OPTION
                 == JOptionPane.showConfirmDialog(view,
                         texto,

@@ -5,6 +5,8 @@
  */
 package gerador.de.provas.aleatorias.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
@@ -19,6 +21,10 @@ public class MainView extends javax.swing.JFrame {
      */
     public MainView() {
         initComponents();
+        setTitle("Gerador de provas aleatórias");
+        sair_menu.addActionListener((ActionEvent e) -> {
+            this.dispose();
+        });
     }
 
     public JMenuItem getExportar_provas_menu() {
@@ -29,7 +35,7 @@ public class MainView extends javax.swing.JFrame {
         return gerar_provas_menu;
     }
 
-    public JMenuItem getImportar_banco_de_dados_menu() {
+    public JMenuItem getImportar_banco_de_provas_menu() {
         return importar_banco_de_dados_menu;
     }
 
@@ -54,11 +60,11 @@ public class MainView extends javax.swing.JFrame {
     }
 
     public JMenuItem getSalvar_banco_de_dados_menu() {
-        return salvar_banco_de_dados_menu;
+        return salvar_banco_de_prova_menu;
     }
 
     public JMenuItem getSalvar_como_banco_de_dados_menu() {
-        return salvar_como_banco_de_dados_menu;
+        return salvar_como_banco_de_prova_menu;
     }
 
     public JMenuItem getNovo_banco_de_provas_menu() {
@@ -84,8 +90,9 @@ public class MainView extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         novo_banco_de_provas_menu = new javax.swing.JMenuItem();
         importar_banco_de_dados_menu = new javax.swing.JMenuItem();
-        salvar_banco_de_dados_menu = new javax.swing.JMenuItem();
-        salvar_como_banco_de_dados_menu = new javax.swing.JMenuItem();
+        salvar_banco_de_prova_menu = new javax.swing.JMenuItem();
+        salvar_como_banco_de_prova_menu = new javax.swing.JMenuItem();
+        sair_menu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         importar_provas_menu = new javax.swing.JMenuItem();
         gerar_provas_menu = new javax.swing.JMenuItem();
@@ -118,11 +125,14 @@ public class MainView extends javax.swing.JFrame {
         importar_banco_de_dados_menu.setText("Importar");
         jMenu1.add(importar_banco_de_dados_menu);
 
-        salvar_banco_de_dados_menu.setText("Salvar");
-        jMenu1.add(salvar_banco_de_dados_menu);
+        salvar_banco_de_prova_menu.setText("Salvar");
+        jMenu1.add(salvar_banco_de_prova_menu);
 
-        salvar_como_banco_de_dados_menu.setText("Salvar como");
-        jMenu1.add(salvar_como_banco_de_dados_menu);
+        salvar_como_banco_de_prova_menu.setText("Salvar como");
+        jMenu1.add(salvar_como_banco_de_prova_menu);
+
+        sair_menu.setText("Sair");
+        jMenu1.add(sair_menu);
 
         jMenuBar1.add(jMenu1);
 
@@ -201,7 +211,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel provas_geradas_label;
     private javax.swing.JLabel provas_label;
     private javax.swing.JLabel questoes_label;
-    private javax.swing.JMenuItem salvar_banco_de_dados_menu;
-    private javax.swing.JMenuItem salvar_como_banco_de_dados_menu;
+    private javax.swing.JMenuItem sair_menu;
+    private javax.swing.JMenuItem salvar_banco_de_prova_menu;
+    private javax.swing.JMenuItem salvar_como_banco_de_prova_menu;
     // End of variables declaration//GEN-END:variables
 }

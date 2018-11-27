@@ -19,14 +19,19 @@
                 <Property name="text" type="java.lang.String" value="Importar"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="salvar_banco_de_dados_menu">
+            <MenuItem class="javax.swing.JMenuItem" name="salvar_banco_de_prova_menu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="salvar_como_banco_de_dados_menu">
+            <MenuItem class="javax.swing.JMenuItem" name="salvar_como_banco_de_prova_menu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salvar como"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="sair_menu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Sair"/>
               </Properties>
             </MenuItem>
           </SubComponents>

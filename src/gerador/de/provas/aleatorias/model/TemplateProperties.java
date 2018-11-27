@@ -7,6 +7,7 @@ package gerador.de.provas.aleatorias.model;
 
 import gerador.de.provas.aleatorias.util.Utils;
 import java.awt.Component;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -22,8 +23,7 @@ public class TemplateProperties {
     private String LOCAL_PROPERTIES = "";
     private String WORK_DIR = "gpa/";
     private String TMP_DIR = "gpa/tmp/";
-    private String QUESTOES_DATA = "gpa/questoes_data";
-    private String PROVAS_DATA = "gpa/provas_data";
+    private String PROVAS_DIR = "gpa/provas";
     private String QUESTOES_DIR = "gpa/questoes/";
     private String GABARITOS_DIR = "gpa/gabaritos/";
     private String ZIP_PATH = "";
@@ -45,6 +45,9 @@ public class TemplateProperties {
     }
 
     public void load(Component view) throws IllegalArgumentException, IllegalAccessException, IOException {
+        if (!new File(LOCAL_PROPERTIES).exists()) {
+            save(view);
+        }
         Properties properties = Utils.importProperties(LOCAL_PROPERTIES);
         for (Field f : getFields()) {
             if (properties.containsKey(f.getName())) {
@@ -63,6 +66,13 @@ public class TemplateProperties {
                 }
             }
         }
+    }
+
+    public void loadFrom(String local, Component view) throws Exception {
+        String old = LOCAL_PROPERTIES;
+        LOCAL_PROPERTIES = local;
+        load(view);
+        LOCAL_PROPERTIES = old;
     }
 
     public void save(Component view) throws IOException, IllegalArgumentException, IllegalAccessException {
@@ -84,6 +94,46 @@ public class TemplateProperties {
             }
         }
         Utils.exportProperties(p, LOCAL_PROPERTIES);
+    }
+
+    public void export(String local, Component view) throws Exception {
+        String old = LOCAL_PROPERTIES;
+        LOCAL_PROPERTIES = local;
+        save(view);
+        LOCAL_PROPERTIES = old;
+    }
+
+    public String getWORK_DIR() {
+        return WORK_DIR;
+    }
+
+    public String getTMP_DIR() {
+        return TMP_DIR;
+    }
+
+    public String getPROVAS_DIR() {
+        return PROVAS_DIR;
+    }
+
+    public String getQUESTOES_DIR() {
+        return QUESTOES_DIR;
+    }
+
+    public String getGABARITOS_DIR() {
+        return GABARITOS_DIR;
+    }
+
+    public String getLOCAL_PROPERTIES() {
+        return LOCAL_PROPERTIES;
+    }
+
+    public String getZIP_PATH() {
+        return ZIP_PATH == null || ZIP_PATH.isEmpty() ? null : ZIP_PATH;
+    }
+
+    public void setZIP_PATH(String ZIP_PATH, Component view) throws Exception {
+        this.ZIP_PATH = ZIP_PATH;
+        save(view);
     }
 
 }

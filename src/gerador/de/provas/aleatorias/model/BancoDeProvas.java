@@ -5,29 +5,44 @@
  */
 package gerador.de.provas.aleatorias.model;
 
+import java.awt.Component;
+import java.io.File;
+
 /**
  *
  * @author conta
  */
 public class BancoDeProvas {
 
-    private String local;
-    private boolean alterado = false;
+    WorkDir workDir;
+    Component view;
+    File zip;
 
-    public BancoDeProvas(String local) {
-        this.local = local;
+    public BancoDeProvas(WorkDir workDir, Component view) {
+        this.workDir = workDir;
+        this.view = view;
+        this.zip = new File(workDir.getProperties().getZIP_PATH());
     }
 
-    public void salvar() {
-        this.alterado = false;
+    public String salvar() {
+        return workDir.salvarBanco(view);
     }
 
-    public String getLocal() {
-        return local;
+    public int getNumQuestoes() {
+        return workDir.getNumQuestoes();
     }
 
-    public boolean isAlterado() {
-        return alterado;
+    public int getNumProvas() {
+        return workDir.getNumProvas();
+    }
+
+    public int getNumGabaritos() {
+        return workDir.getNumGabaritos();
+    }
+
+    @Override
+    public String toString() {
+        return zip.getName().replace(".gpa", "") + " em " + zip.getAbsolutePath().replace(zip.getName(), "");
     }
 
 }
