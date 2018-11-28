@@ -34,20 +34,25 @@ public class MainPresenter {
         autoImportarBancoDeProvas();
         verificar_se_tem_banco();
 
-        view.getNovo_banco_de_provas_menu().addActionListener((ActionEvent e) -> {
+        view.getNovo_banco_de_provas_menu().addActionListener((e) -> {
             criarBancoDeProvas();
         });
-        view.getSalvar_banco_de_dados_menu().addActionListener((ActionEvent e) -> {
+        view.getSalvar_banco_de_dados_menu().addActionListener((e) -> {
             salvarBancoDeProvas();
         });
-        view.getSalvar_como_banco_de_dados_menu().addActionListener((ActionEvent e) -> {
+        view.getSalvar_como_banco_de_dados_menu().addActionListener((e) -> {
             salvarComoBancoDeProvas();
         });
-        view.getImportar_banco_de_provas_menu().addActionListener((ActionEvent e) -> {
+        view.getImportar_banco_de_provas_menu().addActionListener((e) -> {
             importarBancoDeProvas();
         });
 
+        view.getImportar_provas_menu().addActionListener(((e) -> {
+            new ImportarPresenter();
+        }));
+
         view.setVisible(true);
+
     }
 
     void verificar_se_tem_banco() {

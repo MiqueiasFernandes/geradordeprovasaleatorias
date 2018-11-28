@@ -101,7 +101,7 @@ public class MainView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\conta\\Downloads\\Elegant_circle-icons-78.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/Elegant_circle-icons-78.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
         jToolBar1.setFloatable(false);

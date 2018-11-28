@@ -5,6 +5,17 @@
  */
 package gerador.de.provas.aleatorias.view;
 
+import gerador.de.provas.aleatorias.model.importar.Folha;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  *
  * @author conta
@@ -16,6 +27,9 @@ public class ImportarView extends javax.swing.JFrame {
      */
     public ImportarView() {
         initComponents();
+        setTitle("Importar provas");
+        buttonGroup1.add(gabarito_apos_cada_questao);
+        buttonGroup1.add(gabarito_no_outro_arquivo);
     }
 
     /**
@@ -27,24 +41,424 @@ public class ImportarView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jToolBar1 = new javax.swing.JToolBar();
+        first_page_nav_button = new javax.swing.JButton();
+        previous_page_nav_button = new javax.swing.JButton();
+        atual_page_spinner = new javax.swing.JSpinner();
+        total_page_nav_label = new javax.swing.JLabel();
+        next_page_nav_button = new javax.swing.JButton();
+        last_page_nav_button = new javax.swing.JButton();
+        num_questoes_importadas_label = new javax.swing.JLabel();
+        carregar_mais_arquivos = new javax.swing.JButton();
+        importar_botao = new javax.swing.JButton();
+        progressbar = new javax.swing.JProgressBar();
+        folha = folha = new Folha();
+        jPanel1 = new javax.swing.JPanel();
+        gabarito_apos_cada_questao = new javax.swing.JRadioButton();
+        gabarito_no_outro_arquivo = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        modelo_de_inicio_de_questao = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        modelo_de_inicio_de_gabarito = new javax.swing.JTextField();
+        aplicar_a_todos_btn = new javax.swing.JButton();
+        aplicar_a_esta_pagina_btn = new javax.swing.JButton();
+        excluir_cabecalho = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        remover_separador = new javax.swing.JTextField();
+        adicionar_separador = new javax.swing.JTextField();
+        eliminar_questao = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        log_area = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        nome_da_prova = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+
+        first_page_nav_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/first.png"))); // NOI18N
+        first_page_nav_button.setToolTipText("ir a primeira página");
+        first_page_nav_button.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        first_page_nav_button.setFocusable(false);
+        first_page_nav_button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        first_page_nav_button.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(first_page_nav_button);
+
+        previous_page_nav_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/prev.png"))); // NOI18N
+        previous_page_nav_button.setToolTipText("voltar página");
+        previous_page_nav_button.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        previous_page_nav_button.setFocusable(false);
+        previous_page_nav_button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        previous_page_nav_button.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(previous_page_nav_button);
+
+        atual_page_spinner.setMaximumSize(new java.awt.Dimension(50, 20));
+        jToolBar1.add(atual_page_spinner);
+
+        total_page_nav_label.setText("- 0");
+        jToolBar1.add(total_page_nav_label);
+
+        next_page_nav_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/next.png"))); // NOI18N
+        next_page_nav_button.setToolTipText("proxima página");
+        next_page_nav_button.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        next_page_nav_button.setFocusable(false);
+        next_page_nav_button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        next_page_nav_button.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(next_page_nav_button);
+
+        last_page_nav_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/last.png"))); // NOI18N
+        last_page_nav_button.setToolTipText("ir a ultima página");
+        last_page_nav_button.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        last_page_nav_button.setFocusable(false);
+        last_page_nav_button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        last_page_nav_button.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(last_page_nav_button);
+
+        num_questoes_importadas_label.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        num_questoes_importadas_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        num_questoes_importadas_label.setText("0 questões para importar");
+        num_questoes_importadas_label.setMaximumSize(new java.awt.Dimension(1000, 14));
+        num_questoes_importadas_label.setMinimumSize(new java.awt.Dimension(100, 14));
+        jToolBar1.add(num_questoes_importadas_label);
+        num_questoes_importadas_label.getAccessibleContext().setAccessibleName("");
+        num_questoes_importadas_label.getAccessibleContext().setAccessibleDescription("");
+
+        carregar_mais_arquivos.setText("Carregar mais arquivos");
+        carregar_mais_arquivos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        carregar_mais_arquivos.setFocusable(false);
+        carregar_mais_arquivos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        carregar_mais_arquivos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(carregar_mais_arquivos);
+
+        importar_botao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        importar_botao.setText("IMPORTAR");
+        importar_botao.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        importar_botao.setFocusable(false);
+        importar_botao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        importar_botao.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(importar_botao);
+
+        folha.setBackground(new java.awt.Color(204, 204, 204));
+        folha.setOpaque(true);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Separar Questões"));
+
+        gabarito_apos_cada_questao.setSelected(true);
+        gabarito_apos_cada_questao.setText("após cada questão");
+
+        gabarito_no_outro_arquivo.setText("no outro arquivo");
+        gabarito_no_outro_arquivo.setToolTipText("");
+
+        jLabel2.setText("Gabarito:");
+
+        jLabel3.setText("Modelo de início de questão");
+
+        modelo_de_inicio_de_questao.setText("1)");
+
+        jLabel4.setText("Modelo de início de gabarito");
+
+        modelo_de_inicio_de_gabarito.setText("1)");
+
+        aplicar_a_todos_btn.setText("Aplicar a TODOS");
+
+        aplicar_a_esta_pagina_btn.setText("Aplicar a esta página");
+
+        excluir_cabecalho.setSelected(true);
+        excluir_cabecalho.setText("Excluir cabeçalho");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(modelo_de_inicio_de_gabarito)
+                            .addComponent(modelo_de_inicio_de_questao, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(gabarito_no_outro_arquivo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gabarito_apos_cada_questao, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(excluir_cabecalho)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(aplicar_a_todos_btn)
+                        .addGap(3, 3, 3)
+                        .addComponent(aplicar_a_esta_pagina_btn)))
+                .addGap(0, 0, 0))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gabarito_apos_cada_questao)
+                    .addComponent(modelo_de_inicio_de_questao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gabarito_no_outro_arquivo)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(modelo_de_inicio_de_gabarito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(aplicar_a_todos_btn)
+                    .addComponent(aplicar_a_esta_pagina_btn)
+                    .addComponent(excluir_cabecalho)))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Aplicar Nessa Página"));
+
+        jLabel5.setText("Remover separador:");
+
+        jLabel6.setText("Adicionar separador:");
+
+        jLabel7.setText("Eliminar questão com gabarito:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(28, 28, 28)
+                        .addComponent(remover_separador))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(eliminar_questao))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(adicionar_separador)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(remover_separador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(adicionar_separador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(eliminar_questao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        log_area.setColumns(20);
+        log_area.setRows(5);
+        jScrollPane1.setViewportView(log_area);
+
+        jLabel1.setText("Nome desse tipo de prova:");
+
+        nome_da_prova.setText("provas do primeiro conteudo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(progressbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(folha, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nome_da_prova))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nome_da_prova, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
+                    .addComponent(folha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(progressbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JTextField getAdicionar_separador() {
+        return adicionar_separador;
+    }
+
+    public JButton getAplicar_a_esta_pagina_btn() {
+        return aplicar_a_esta_pagina_btn;
+    }
+
+    public JButton getAplicar_a_todos_btn() {
+        return aplicar_a_todos_btn;
+    }
+
+    public JSpinner getAtual_page_spinner() {
+        return atual_page_spinner;
+    }
+
+    public ButtonGroup getButtonGroup() {
+        return buttonGroup1;
+    }
+
+    public JTextField getEliminar_questao() {
+        return eliminar_questao;
+    }
+
+    public JCheckBox getExcluir_cabecalho() {
+        return excluir_cabecalho;
+    }
+
+    public JButton getFirst_page_nav_button() {
+        return first_page_nav_button;
+    }
+
+    public Folha getFolha() {
+        return (Folha) folha;
+    }
+
+    public JRadioButton getGabarito_apos_cada_questao() {
+        return gabarito_apos_cada_questao;
+    }
+
+    public JRadioButton getGabarito_no_outro_arquivo() {
+        return gabarito_no_outro_arquivo;
+    }
+
+    public JButton getImportar_botao() {
+        return importar_botao;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public JButton getLast_page_nav_button() {
+        return last_page_nav_button;
+    }
+
+    public JTextArea getLog_area() {
+        return log_area;
+    }
+
+    public JTextField getModelo_de_inicio_de_gabarito() {
+        return modelo_de_inicio_de_gabarito;
+    }
+
+    public JTextField getModelo_de_inicio_de_questao() {
+        return modelo_de_inicio_de_questao;
+    }
+
+    public JButton getNext_page_nav_button() {
+        return next_page_nav_button;
+    }
+
+    public JTextField getNome_da_prova() {
+        return nome_da_prova;
+    }
+
+    public JLabel getNum_questoes_importadas_label() {
+        return num_questoes_importadas_label;
+    }
+
+    public JButton getPrevious_page_nav_button() {
+        return previous_page_nav_button;
+    }
+
+    public JProgressBar getProgressbar() {
+        return progressbar;
+    }
+
+    public JTextField getRemover_separador() {
+        return remover_separador;
+    }
+
+    public JLabel getTotal_page_nav_label() {
+        return total_page_nav_label;
+    }
+
+    public JButton getCarregar_mais_arquivos() {
+        return carregar_mais_arquivos;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField adicionar_separador;
+    private javax.swing.JButton aplicar_a_esta_pagina_btn;
+    private javax.swing.JButton aplicar_a_todos_btn;
+    private javax.swing.JSpinner atual_page_spinner;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton carregar_mais_arquivos;
+    private javax.swing.JTextField eliminar_questao;
+    private javax.swing.JCheckBox excluir_cabecalho;
+    private javax.swing.JButton first_page_nav_button;
+    private javax.swing.JLabel folha;
+    private javax.swing.JRadioButton gabarito_apos_cada_questao;
+    private javax.swing.JRadioButton gabarito_no_outro_arquivo;
+    private javax.swing.JButton importar_botao;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JButton last_page_nav_button;
+    private javax.swing.JTextArea log_area;
+    private javax.swing.JTextField modelo_de_inicio_de_gabarito;
+    private javax.swing.JTextField modelo_de_inicio_de_questao;
+    private javax.swing.JButton next_page_nav_button;
+    private javax.swing.JTextField nome_da_prova;
+    private javax.swing.JLabel num_questoes_importadas_label;
+    private javax.swing.JButton previous_page_nav_button;
+    private javax.swing.JProgressBar progressbar;
+    private javax.swing.JTextField remover_separador;
+    private javax.swing.JLabel total_page_nav_label;
     // End of variables declaration//GEN-END:variables
 }

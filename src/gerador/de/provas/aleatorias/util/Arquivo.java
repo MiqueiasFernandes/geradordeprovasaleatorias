@@ -5,6 +5,7 @@
  */
 package gerador.de.provas.aleatorias.util;
 
+import gerador.de.provas.aleatorias.model.pdf.PDF;
 import static gerador.de.provas.aleatorias.util.Janela.PATH_SEP;
 import java.io.File;
 import java.io.FileInputStream;
@@ -117,4 +118,6 @@ public class Arquivo {
         zis.closeEntry();
         zis.close();
     }
+    
+    
 }
