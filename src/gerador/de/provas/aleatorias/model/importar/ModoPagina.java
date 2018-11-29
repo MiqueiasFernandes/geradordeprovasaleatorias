@@ -9,6 +9,8 @@ package gerador.de.provas.aleatorias.model.importar;
  *
  * @author conta
  */
-public class Modo {
-    
+public enum ModoPagina {
+    MISTO,
+    QUESTAO,
+    GABARITO
 }

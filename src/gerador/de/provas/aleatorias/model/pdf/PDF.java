@@ -5,15 +5,14 @@
  */
 package gerador.de.provas.aleatorias.model.pdf;
 
+import gerador.de.provas.aleatorias.model.importar.ModoPagina;
 import gerador.de.provas.aleatorias.model.importar.Pagina;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JProgressBar;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
@@ -23,7 +22,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
  */
 public class PDF {
 
-    public static final int DPI = 300;
+    public static final int DPI = 200;
     private final File file;
     private final String arquivo;
     private final PDDocument document;
@@ -31,13 +30,13 @@ public class PDF {
     private final PDFRenderer pdfRenderer;
     private final int nPaginas;
     private final int id;
-    private final int start;
+    private final int page_index_global_start;
 
     public PDF(String arquivo, JProgressBar progress, int id, int start) throws IOException {
         this.file = new File(arquivo);
         this.arquivo = arquivo;
         this.id = id;
-        this.start = start;
+        this.page_index_global_start = start;
         document = PDDocument.load(file);
         nPaginas = document.getNumberOfPages();
         pages = new ArrayList<>();
@@ -78,6 +77,12 @@ public class PDF {
 
     public PDFRenderer getPdfRenderer() {
         return pdfRenderer;
+    }
+
+    public void setModoPagina(ModoPagina modoPagina) {
+        pages.forEach((t) -> {
+            t.setModoPagina(modoPagina);
+        });
     }
 
 }

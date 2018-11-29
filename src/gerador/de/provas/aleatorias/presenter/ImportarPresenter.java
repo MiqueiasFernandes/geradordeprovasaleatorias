@@ -5,10 +5,17 @@
  */
 package gerador.de.provas.aleatorias.presenter;
 
+import gerador.de.provas.aleatorias.model.importar.Marcador;
+import gerador.de.provas.aleatorias.model.importar.ModoPagina;
 import gerador.de.provas.aleatorias.model.importar.Pagina;
 import gerador.de.provas.aleatorias.model.pdf.PDF;
 import gerador.de.provas.aleatorias.util.Janela;
 import gerador.de.provas.aleatorias.view.ImportarView;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +24,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.swing.AbstractSpinnerModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -27,13 +33,14 @@ import javax.swing.JOptionPane;
  */
 public class ImportarPresenter {
 
-    ImportarView view;
+    private ImportarView view;
 
-    ArrayList<PDF> arquivos = new ArrayList<>();
-    ArrayList<File> questoes = new ArrayList<>();
-    ArrayList<File> gabaritos = new ArrayList<>();
-    ArrayList<Pagina> paginas = new ArrayList<>();
-    Pagina current;
+    private ArrayList<PDF> arquivos = new ArrayList<>();
+    private ArrayList<File> questoes = new ArrayList<>();
+    private ArrayList<File> gabaritos = new ArrayList<>();
+    private ArrayList<Pagina> paginas = new ArrayList<>();
+    private ArrayList<Integer> questao_excluida = new ArrayList<>();
+    private Pagina current;
 
     boolean modo_gabarito_em_outro_arquivo = false;
 
@@ -86,6 +93,67 @@ public class ImportarPresenter {
 
         view.getCarregar_mais_arquivos().addActionListener((e) -> {
             carregarArquivos();
+        });
+
+        view.getFolha().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                view.getLog_area().setText(current.getLog());
+            }
+
+        });
+
+        view.getAdicionar_marcador().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                view.getAdicionar_marcador().setText("");
+            }
+        });
+        view.getRemover_marcador().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                view.getRemover_marcador().setText("");
+            }
+        });
+        view.getOcultar_regiao_do_marcador_text().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                view.getOcultar_regiao_do_marcador_text().setText("");
+            }
+        });
+        view.getEliminar_questao().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                view.getEliminar_questao().setText("");
+            }
+        });
+
+        view.getAplicar_btn().addActionListener((e) -> {
+            aplicar();
+        });
+
+        view.getMarcadores_btn().addActionListener((e) -> {
+
+            if (Janela.showDialogisYes(view, "Remover Marcadores", "Deseja remover TODOS marcadores desta PÁGINA?")) {
+                if (current != null) {
+                    current.removerTodosMarcadores();
+                    if (Janela.showDialogisYes(view, "Remover Marcadores", "Deseja remover TODOS marcadores deste ARQUIVO?")) {
+                        current.getPdf().getPages().forEach((t) -> {
+                            t.removerTodosMarcadores();
+                        });
+                        if (Janela.showDialogisYes(view, "Remover Marcadores", "Deseja remover TODOS marcadores DE TODOS ARQUIVO?")) {
+                            current.getPdf().getPages().forEach((t) -> {
+                                t.removerTodosMarcadores();
+                            });
+                        }
+                    }
+                }
+                update();
+            }
         });
     }
 
@@ -142,6 +210,10 @@ public class ImportarPresenter {
                         PDF pdf = new PDF(arquivo.getAbsolutePath(), view.getProgressbar(), arquivos.size() + 1, paginas.size());
                         arquivos.add(pdf);
                         paginas.addAll(pdf.getPages());
+                        pdf.getPages().forEach((t) -> {
+                            t.setQuestao_excluida(questao_excluida);
+                        });
+                        setModoPagina();
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(view, "Impossivel importar arquivo " + arquivo.getName());
                         Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
@@ -244,8 +316,6 @@ public class ImportarPresenter {
 
         view.getAtual_page_spinner().setValue(getPageH());
 
-        view.getLog_area().setText(current.getLog());
-
         update();
     }
 
@@ -261,15 +331,180 @@ public class ImportarPresenter {
         return getPage() + 1;
     }
 
-    void update() {
-//        view.getQuestoesNessaPagina().setText(Integer.toString(current.getNumQuestoes()));
-//        totalizar();
+    void setModoPagina() {
+        if (!modo_gabarito_em_outro_arquivo) {
+            paginas.forEach((t) -> {
+                t.setModoPagina(ModoPagina.MISTO);
+            });
+        } else {
+            for (File questao : questoes) {
+                for (PDF arquivo : arquivos) {
+                    if (questao.getAbsolutePath().equals(arquivo.getFile().getAbsolutePath())) {
+                        arquivo.setModoPagina(ModoPagina.QUESTAO);
+                    }
+                }
+            }
+            for (File gabarito : gabaritos) {
+                for (PDF arquivo : arquivos) {
+                    if (gabarito.getAbsolutePath().equals(arquivo.getFile().getAbsolutePath())) {
+                        arquivo.setModoPagina(ModoPagina.GABARITO);
+                    }
+                }
+            }
+        }
+    }
 
+    int countQuestions() {
+        int cont = 0;
+        int cont2 = 0;
+        if (!modo_gabarito_em_outro_arquivo) {
+            for (Pagina pagina : paginas) {
+                cont = Math.max(cont, pagina.setIndex_questao(cont));
+            }
+        } else {
+            for (File questao : questoes) {
+                for (PDF arquivo : arquivos) {
+                    if (questao.getAbsolutePath().equals(arquivo.getFile().getAbsolutePath())) {
+                        PDF questoes_arquivo = arquivo;
+                        PDF gabaritos_arquivo = getGabaritoCorrespondente(questoes_arquivo);
+                        if (gabaritos_arquivo == null) {
+                            JOptionPane.showMessageDialog(view, "ERRO: gabarito correspondente de " + questoes_arquivo.getArquivo() + " não encontrado.");
+                        } else {
+                            for (Pagina pagina : questoes_arquivo.getPages()) {
+                                cont = Math.max(cont, pagina.setIndex_questao(cont));
+                            }
+                            for (Pagina pagina : gabaritos_arquivo.getPages()) {
+                                /// conta para atualizar o numero do gabarito na pagina
+                                cont2 = Math.max(cont2, pagina.setIndex_questao(cont2));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return cont;
+    }
+
+    public PDF getGabaritoCorrespondente(PDF questao) {
+        for (PDF arquivo : arquivos) {
+            if (questao.getFile().getName().replace(".pdf", " gabarito.pdf").equals(arquivo.getFile().getName())) {
+                return arquivo;
+            }
+        }
+        return null;
+    }
+
+    void update() {
+        int numq = countQuestions();
+        int cont = 0;
+
+        for (Integer num : questao_excluida) {
+            if (num <= numq) {
+                cont++;
+            }
+        }
+
+        view.getNum_questoes_importadas_label().setText((numq - cont) + " questões importadas em todos arquivos");
+        view.getLog_area().setText(current.getLog());
         view.getTotal_page_nav_label().setText(" - " + paginas.size());
+        view.getPdf_info_lbl().setText(
+                current.getPdf().getFile().getName().replace(".pdf", "") + " => "
+                + (current.getModoPagina() == ModoPagina.MISTO
+                ? "Questão seguida de gabarito"
+                : ("Página de " + (current.getModoPagina() == ModoPagina.QUESTAO
+                ? "questões" : "gabaritos"))));
         view.getFolha().setPageView(current);
         view.getFolha().repaint();
         view.invalidate();
     }
 
 //   ################# FIM FUNÇÕES DE NAVEGAÇÃO NAS PÁGINAS  #####################
+    private void aplicar() {
+
+        if (current == null) {
+            return;
+        }
+
+        String add = view.getAdicionar_marcador().getText();
+        String rem = view.getRemover_marcador().getText();
+        String elim = view.getEliminar_questao().getText();
+        String ocul = view.getOcultar_regiao_do_marcador_text().getText();
+
+        if (add != null && add.equals("posições y: 356,1030,50")) {
+            add = null;
+        }
+        if (rem != null && rem.equals("nomes: M1,M2,M3")) {
+            rem = null;
+        }
+        if (elim != null && elim.equals("numeros: 1,2,3,4")) {
+            elim = null;
+        }
+        if (ocul != null && ocul.equals("nomes: M1,M3,M5")) {
+            ocul = null;
+        }
+
+        if (rem != null && !rem.isEmpty()) {
+            for (String m : rem.split(",")) {
+                if (m != null && !m.isEmpty()) {
+                    m = m.trim();
+                    Marcador marcador = current.getMarcadorByID(m);
+
+                    if (m == null) {
+                        JOptionPane.showMessageDialog(view, "Marcador inexistente nessa página: " + m);
+                    } else {
+                        current.removeMarcador(marcador);
+                    }
+
+                }
+                view.getRemover_marcador().setText("");
+            }
+        }
+
+        if (ocul != null && !ocul.isEmpty()) {
+            for (String m : ocul.split(",")) {
+                if (m != null && !m.isEmpty()) {
+                    m = m.trim();
+                    Marcador marcador = current.getMarcadorByID(m);
+
+                    if (m == null) {
+                        JOptionPane.showMessageDialog(view, "Marcador inexistente nessa página: " + m);
+                    } else {
+                        marcador.getArea().ocultar();
+                    }
+
+                }
+                view.getOcultar_regiao_do_marcador_text().setText("");
+            }
+        }
+
+        if (add != null && !add.isEmpty()) {
+            for (String y : add.split(",")) {
+                if (y != null && !y.isEmpty()) {
+                    y = y.trim();
+                    try {
+                        int pos = Integer.parseInt(y);
+                        current.addMarcador(pos);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(view, "Numero de Y invalido para marcador: " + y + " => marcador não adicionado");
+                    }
+                }
+            }
+            view.getAdicionar_marcador().setText("");
+        }
+        if (elim != null && !elim.isEmpty()) {
+            for (String y : elim.split(",")) {
+                if (y != null && !y.isEmpty()) {
+                    y = y.trim();
+                    try {
+                        questao_excluida.add(Integer.parseInt(y));
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(view, "Numero da Questão invalido: " + y);
+                    }
+                }
+            }
+            view.getEliminar_questao().setText("");
+        }
+
+        update();
+    }
 }
