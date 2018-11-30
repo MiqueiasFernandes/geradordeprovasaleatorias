@@ -36,6 +36,14 @@ public class WorkDir {
         gabaritos_dir = new File(properties.getGABARITOS_DIR());
     }
 
+    public void clearWorkDir() {
+        try {
+            Arquivo.deleteDirectoryRecursive(work_dir.toPath());
+        } catch (IOException ex) {
+            Logger.getLogger(WorkDir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public TemplateProperties getProperties() {
         return properties;
     }
@@ -225,7 +233,7 @@ public class WorkDir {
         return null;
     }
 
-    public File[] getProvas() {
+    public File[] getProvasGeradas() {
         return provas_dir.listFiles();
     }
 
@@ -239,7 +247,7 @@ public class WorkDir {
         int cont = 0;
         for (File tipo : folders) {
             File[] questoesofType = getQuestoesofType(tipo.getName());
-            cont = questoesofType == null ? 0 : questoesofType.length;
+            cont += questoesofType == null ? 0 : questoesofType.length;
         }
 
         return cont;
@@ -255,14 +263,14 @@ public class WorkDir {
         int cont = 0;
         for (File tipo : folders) {
             File[] questoesofType = getGabaritosofType(tipo.getName());
-            cont = questoesofType == null ? 0 : questoesofType.length;
+            cont += questoesofType == null ? 0 : questoesofType.length;
         }
 
         return cont;
     }
 
-    public int getNumProvas() {
-        File[] listFiles = getProvas();
+    public int getNumProvasGeradas() {
+        File[] listFiles = getProvasGeradas();
         return listFiles == null ? 0 : listFiles.length;
     }
 
@@ -274,6 +282,15 @@ public class WorkDir {
         return Arrays.asList(folders).stream().map((t) -> {
             return t.getName();
         }).collect(Collectors.toList()).toArray(new String[]{});
+    }
+
+    public int getNumTiposDeProvas() {
+
+        File[] folders = getQuestoesFolders();
+        if (folders == null) {
+            return 0;
+        }
+        return folders.length;
     }
 
     public boolean hasTipodeProva(String tipo) {

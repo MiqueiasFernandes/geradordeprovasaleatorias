@@ -32,8 +32,12 @@ public class BancoDeProvas {
         return workDir.getNumQuestoes();
     }
 
-    public int getNumProvas() {
-        return workDir.getNumProvas();
+    public int getNumProvasGeradas() {
+        return workDir.getNumProvasGeradas();
+    }
+
+    public int getNumTiposdeProvas() {
+        return workDir.getNumTiposDeProvas();
     }
 
     public int getNumGabaritos() {

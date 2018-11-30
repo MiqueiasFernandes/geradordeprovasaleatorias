@@ -826,19 +826,20 @@ public class ImportarPresenter {
 
         float[] bounds_questao = questao.getRectPDF(true, view.getHeight());
         float[] bounds_gabarito = questao.getRectPDF(false, view.getHeight());
-        int[] rect_questao = questao.getRectImage(true, view.getHeight());
-        int[] rect_gabarito = questao.getRectImage(false, view.getHeight());
+//        int[] rect_questao = questao.getRectImage(true, view.getHeight());
+//        int[] rect_gabarito = questao.getRectImage(false, view.getHeight());
 
         System.out.println(questao.getPagina(true) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_questao));
         System.out.println(questao.getPagina(false) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_gabarito));
 
         try {
-            questao.getPagina(true).savePartAsImage(rect_questao, local_questoes);
-            questao.getPagina(false).savePartAsImage(rect_gabarito, local_gabarito);
+//            questao.getPagina(true).savePartAsImage(rect_questao, local_questoes);
+//            questao.getPagina(false).savePartAsImage(rect_gabarito, local_gabarito);
             questao.getPagina(true).savePartAsPDF(bounds_questao, local_questoes);
             questao.getPagina(false).savePartAsPDF(bounds_gabarito, local_gabarito);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(view, "Falhou ao savar " + local_questoes + " e " + local_gabarito + " : abortando ...");
+            JOptionPane.showMessageDialog(view, "Falhou ao savar "
+                    + local_questoes + " e " + local_gabarito + " : abortando ...");
             Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }

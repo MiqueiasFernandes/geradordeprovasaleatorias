@@ -8,7 +8,6 @@ package gerador.de.provas.aleatorias;
 import gerador.de.provas.aleatorias.model.TemplateProperties;
 import gerador.de.provas.aleatorias.model.WorkDir;
 import gerador.de.provas.aleatorias.presenter.MainPresenter;
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -43,6 +42,7 @@ public class GeradorDeProvasAleatorias {
         try {
             properies.load(null);
             workDir = new WorkDir(properies);
+            workDir.clearWorkDir();
             workDir.inicializar();
         } catch (Exception ex) {
             Logger.getLogger(GeradorDeProvasAleatorias.class.getName()).log(Level.SEVERE, null, ex);

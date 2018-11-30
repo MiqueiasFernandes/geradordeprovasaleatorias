@@ -201,8 +201,6 @@ public class Pagina extends PDFTextStripper {
                 new File(local));
     }
 
-    ////     x1,y1
-    ///             x2,y2
     public void savePartAsPDF(float[] bounds, String local) throws IOException {
 
         PDRectangle mediaBox = pDPage.getMediaBox();

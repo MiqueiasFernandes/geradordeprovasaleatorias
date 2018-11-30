@@ -24,16 +24,20 @@ public class MainPresenter {
 
     private MainView view;
     private BancoDeProvas bancoDeProvas;
-    private TemplateProperties properies;
-    WorkDir workDir;
+    private final TemplateProperties properies;
+    private final WorkDir workDir;
 
     public MainPresenter(WorkDir workDir) {
         this.properies = workDir.getProperties();
         this.workDir = workDir;
         view = new MainView();
 
-        autoImportarBancoDeProvas();
-        verificar_se_tem_banco();
+        new Thread(() -> {
+            verificar_se_tem_banco();
+            autoImportarBancoDeProvas();
+            verificar_se_tem_banco();
+            view.getCarregando_label().setVisible(false);
+        }).start();
 
         view.getNovo_banco_de_provas_menu().addActionListener((e) -> {
             criarBancoDeProvas();
@@ -53,6 +57,7 @@ public class MainPresenter {
                 @Override
                 public void windowClosed(WindowEvent e) {
                     salvarBancoDeProvas();
+                    verificar_se_tem_banco();
                 }
             });
         }));
@@ -73,8 +78,9 @@ public class MainPresenter {
         view.getSalvar_como_banco_de_dados_menu().setEnabled(importado);
         if (importado) {
             view.getLocal_prova_label().setText(bancoDeProvas.toString());
-//        } else {
-//            view.getLocal_prova_label().setText("Nenhum banco de provas importado.");
+            view.getQuestoes_label().setText(bancoDeProvas.getNumQuestoes() + " Questões disponíveis");
+            view.getProvas_label().setText(bancoDeProvas.getNumTiposdeProvas() + " tipos de provas disponíveis");
+            view.getProvas_geradas_label().setText(bancoDeProvas.getNumProvasGeradas() + " provas geradas");
         }
     }
 

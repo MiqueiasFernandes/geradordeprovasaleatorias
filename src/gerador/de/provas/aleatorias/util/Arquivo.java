@@ -106,16 +106,22 @@ public class Arquivo {
         ZipInputStream zis = new ZipInputStream(new FileInputStream(fileZip));
         ZipEntry zipEntry = zis.getNextEntry();
         while (zipEntry != null) {
-            String fileName = zipEntry.getName();
+            String fileName =  path +zipEntry.getName();
             if (!fileName.endsWith("/")) {
-                System.out.println("importando " + fileName + " em " + path + fileName);
-                File newFile = new File(path + fileName);
+                System.out.println("importando " + fileName + " em " + fileName);
+                File newFile = new File(fileName);
                 FileOutputStream fos = new FileOutputStream(newFile);
                 int len;
                 while ((len = zis.read(buffer)) > 0) {
                     fos.write(buffer, 0, len);
                 }
                 fos.close();
+            } else {
+                System.out.println("criando dir " + fileName);
+                File file = new File(fileName);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
             }
             zipEntry = zis.getNextEntry();
         }
