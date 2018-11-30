@@ -123,6 +123,7 @@ public class Area {
                     case QUESTAO:
                     case GABARITO:
                         cont++;
+                        break;
                     case MISTO:
                         if (questao && next.getArea().questao) {
                             cont++;
@@ -157,7 +158,9 @@ public class Area {
 
     @Override
     public String toString() {
-        return oculto ? "Parte excluida" : (questao ? ("Questão " + getNumero()) : ("Gabarito " + getNumero())) + (isExcluido() ? " SERÁ EXCLUIDA!" : "");
+        return oculto ? "Parte excluida"
+                : (questao ? ("Questão " + getNumero())
+                        : ("Gabarito " + getNumero())) + (isExcluido() ? " SERÁ EXCLUIDA!" : "");
     }
 
 }

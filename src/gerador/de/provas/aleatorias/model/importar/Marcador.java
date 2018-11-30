@@ -21,6 +21,18 @@ public class Marcador implements Comparable<Marcador> {
     private final Area area;
     private final int id;
 
+    public Marcador(Pagina pagina, Contexto contexto, int y_image, boolean oculto) {
+        this.id = Singleton.getInstance().getNextMarcadorID();
+        this.pagina = pagina;
+        this.contexto = contexto;
+        this.y_image = y_image;
+        this.y_pdf = contexto.yimage2YPDF(y_image);
+        this.area = new Area(this, pagina);
+        if (oculto) {
+            area.ocultar();
+        }
+    }
+
     public Marcador(Pagina pagina, Contexto contexto, int y_view) {
         this.id = Singleton.getInstance().getNextMarcadorID();
         this.pagina = pagina;
@@ -62,6 +74,18 @@ public class Marcador implements Comparable<Marcador> {
     @Override
     public String toString() {
         return "M" + id;
+    }
+
+    public boolean visible() {
+        return area.isVisivel();
+    }
+
+    public Pagina getPagina() {
+        return pagina;
+    }
+
+    public Contexto getContexto() {
+        return contexto;
     }
 
     @Override

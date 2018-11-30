@@ -7,6 +7,7 @@ package gerador.de.provas.aleatorias.model.importar;
 
 import gerador.de.provas.aleatorias.model.pdf.Contexto;
 import gerador.de.provas.aleatorias.model.pdf.PDF;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -71,16 +72,18 @@ public class Pagina extends PDFTextStripper {
         return index;
     }
 
-    public void addMarcador(int y) {
+    public Marcador addMarcador(int y) {
         Marcador marcador = new Marcador(this, contexto, y);
         marcadores.add(marcador);
         marcador.update();
+        return marcador;
     }
 
-    public void addMarcador(float y) {
+    public Marcador addMarcador(float y) {
         Marcador marcador = new Marcador(this, contexto, y);
         marcadores.add(marcador);
         marcador.update();
+        return marcador;
     }
 
     public void removeMarcador(Marcador m) {
@@ -160,6 +163,39 @@ public class Pagina extends PDFTextStripper {
             return false;
         }
         return questao_excluida.contains(questao);
+    }
+
+    public void eliminarFim() {
+
+        int botton = image.getHeight();
+        for (int y = image.getHeight() - 1; y >= 0; y--) {
+            for (int x = image.getWidth() - 1; x >= 0; x--) {
+                if (!(image.getRGB(x, y) == Color.WHITE.getRGB())) {
+                    botton = y;
+                    break;
+                }
+            }
+            if (botton != image.getHeight()) {
+                break;
+            }
+        }
+
+        if (botton < image.getHeight()) {
+
+            if (botton < image.getHeight() - 50) {
+                botton += 10;
+            }
+
+            Marcador marcador = new Marcador(this, contexto, botton, true);
+            marcadores.add(marcador);
+            marcador.update();
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return pdf.getFile().getName() + " (Página " + (index + 1) + ")";
     }
 
 }

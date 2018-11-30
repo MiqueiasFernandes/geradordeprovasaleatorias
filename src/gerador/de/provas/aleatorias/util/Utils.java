@@ -5,10 +5,13 @@
  */
 package gerador.de.provas.aleatorias.util;
 
+import java.awt.Desktop;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -49,6 +52,16 @@ public class Utils {
         FileOutputStream out = new FileOutputStream(file);
         properties.store(out, "Modificado em: " + getDateTime());
         out.close();
+    }
+
+    public static void openURL(String url) throws URISyntaxException {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (IOException e) {
+                /* TODO: error handling */ }
+        } else {
+            /* TODO: error handling */ }
     }
 
 }

@@ -64,9 +64,11 @@ public class ImportarView extends javax.swing.JFrame {
         modelo_de_inicio_de_questao = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         modelo_de_inicio_de_gabarito = new javax.swing.JTextField();
-        aplicar_a_todos_btn = new javax.swing.JButton();
+        aplicar_a_todos_desse_arquivo_btn = new javax.swing.JButton();
         aplicar_a_esta_pagina_btn = new javax.swing.JButton();
-        excluir_cabecalho = new javax.swing.JCheckBox();
+        excluir_parte_branca = new javax.swing.JCheckBox();
+        como_fazer_isso = new javax.swing.JLabel();
+        aplicar_a_todos_btn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -77,11 +79,11 @@ public class ImportarView extends javax.swing.JFrame {
         ocultar_regiao_do_marcador_text = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         aplicar_btn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        log_area = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         nome_da_prova = new javax.swing.JTextField();
         pdf_info_lbl = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        log_area = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -181,41 +183,53 @@ public class ImportarView extends javax.swing.JFrame {
 
         modelo_de_inicio_de_gabarito.setText("1)");
 
-        aplicar_a_todos_btn.setText("Aplicar a todas páginas");
+        aplicar_a_todos_desse_arquivo_btn.setText("Aplicar a todas páginas desse arquivo");
 
         aplicar_a_esta_pagina_btn.setText("Aplicar a esta página");
 
-        excluir_cabecalho.setSelected(true);
-        excluir_cabecalho.setText("Excluir cabeçalho");
+        excluir_parte_branca.setSelected(true);
+        excluir_parte_branca.setText("Excluir partes em branco");
+
+        como_fazer_isso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        como_fazer_isso.setForeground(new java.awt.Color(0, 0, 204));
+        como_fazer_isso.setText("como fazer isso?");
+
+        aplicar_a_todos_btn.setText("Aplicar a todos arquivos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(modelo_de_inicio_de_gabarito)
-                            .addComponent(modelo_de_inicio_de_questao, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 2, Short.MAX_VALUE)
+                        .addComponent(aplicar_a_esta_pagina_btn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(aplicar_a_todos_desse_arquivo_btn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(aplicar_a_todos_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(como_fazer_isso)
+                                .addGap(44, 44, 44))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
+                                    .addComponent(modelo_de_inicio_de_questao)
                                     .addComponent(jLabel4))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(6, 6, 6))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(modelo_de_inicio_de_gabarito)
+                                .addGap(151, 151, 151)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(gabarito_no_outro_arquivo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(gabarito_apos_cada_questao, javax.swing.GroupLayout.Alignment.TRAILING))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(excluir_cabecalho)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(aplicar_a_todos_btn)
-                        .addGap(3, 3, 3)
-                        .addComponent(aplicar_a_esta_pagina_btn)))
+                                .addComponent(gabarito_apos_cada_questao, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(excluir_parte_branca, javax.swing.GroupLayout.Alignment.TRAILING)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -223,7 +237,8 @@ public class ImportarView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(como_fazer_isso))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gabarito_apos_cada_questao)
@@ -233,12 +248,14 @@ public class ImportarView extends javax.swing.JFrame {
                     .addComponent(gabarito_no_outro_arquivo)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(modelo_de_inicio_de_gabarito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(aplicar_a_todos_btn)
+                    .addComponent(modelo_de_inicio_de_gabarito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(excluir_parte_branca))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(aplicar_a_todos_desse_arquivo_btn)
                     .addComponent(aplicar_a_esta_pagina_btn)
-                    .addComponent(excluir_cabecalho)))
+                    .addComponent(aplicar_a_todos_btn)))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Aplicar Nessa Página"));
@@ -250,12 +267,16 @@ public class ImportarView extends javax.swing.JFrame {
         jLabel7.setText("Eliminar questão com gabarito:");
 
         remover_marcador.setText("nomes: M1,M2,M3");
+        remover_marcador.setToolTipText("nomes: M1,M2,M3");
 
         adicionar_marcador.setText("posições y: 356,1030,50");
+        adicionar_marcador.setToolTipText("posições y: 356,1030,50");
 
         eliminar_questao.setText("numeros: 1,2,3,4");
+        eliminar_questao.setToolTipText("numeros: 1,2,3,4");
 
         ocultar_regiao_do_marcador_text.setText("nomes: M1,M3,M5");
+        ocultar_regiao_do_marcador_text.setToolTipText("nomes: M1,M3,M5");
 
         jLabel8.setText("Ocultar região do Marcador:");
 
@@ -316,11 +337,6 @@ public class ImportarView extends javax.swing.JFrame {
 
         jLabel5.getAccessibleContext().setAccessibleName("");
 
-        log_area.setColumns(20);
-        log_area.setRows(5);
-        log_area.setPreferredSize(new java.awt.Dimension(100, 94));
-        jScrollPane1.setViewportView(log_area);
-
         jLabel1.setText("Nome desse tipo de prova:");
 
         nome_da_prova.setText("provas do primeiro conteudo");
@@ -330,16 +346,15 @@ public class ImportarView extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nome_da_prova)))
+                        .addComponent(nome_da_prova))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jScrollPane1)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,26 +366,36 @@ public class ImportarView extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(nome_da_prova, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        pdf_info_lbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pdf_info_lbl.setText("...");
+
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        log_area.setEditable(false);
+        log_area.setColumns(20);
+        log_area.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
+        log_area.setRows(5);
+        log_area.setAutoscrolls(false);
+        jScrollPane1.setViewportView(log_area);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
-            .addComponent(progressbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(progressbar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(folha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pdf_info_lbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(folha, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(pdf_info_lbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,11 +403,13 @@ public class ImportarView extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(folha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(folha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pdf_info_lbl)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pdf_info_lbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -396,6 +423,10 @@ public class ImportarView extends javax.swing.JFrame {
 
     public JButton getAplicar_a_esta_pagina_btn() {
         return aplicar_a_esta_pagina_btn;
+    }
+
+    public JButton getAplicar_a_todos_desse_arquivo_btn() {
+        return aplicar_a_todos_desse_arquivo_btn;
     }
 
     public JButton getAplicar_a_todos_btn() {
@@ -414,8 +445,8 @@ public class ImportarView extends javax.swing.JFrame {
         return eliminar_questao;
     }
 
-    public JCheckBox getExcluir_cabecalho() {
-        return excluir_cabecalho;
+    public JCheckBox getExcluir_parte_branca() {
+        return excluir_parte_branca;
     }
 
     public JButton getFirst_page_nav_button() {
@@ -506,17 +537,23 @@ public class ImportarView extends javax.swing.JFrame {
         return marcadores_btn;
     }
 
+    public JLabel getComo_fazer_isso() {
+        return como_fazer_isso;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField adicionar_marcador;
     private javax.swing.JButton aplicar_a_esta_pagina_btn;
     private javax.swing.JButton aplicar_a_todos_btn;
+    private javax.swing.JButton aplicar_a_todos_desse_arquivo_btn;
     private javax.swing.JButton aplicar_btn;
     private javax.swing.JSpinner atual_page_spinner;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton carregar_mais_arquivos;
+    private javax.swing.JLabel como_fazer_isso;
     private javax.swing.JTextField eliminar_questao;
-    private javax.swing.JCheckBox excluir_cabecalho;
+    private javax.swing.JCheckBox excluir_parte_branca;
     private javax.swing.JButton first_page_nav_button;
     private javax.swing.JLabel folha;
     private javax.swing.JRadioButton gabarito_apos_cada_questao;

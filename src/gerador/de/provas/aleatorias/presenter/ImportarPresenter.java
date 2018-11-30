@@ -8,19 +8,25 @@ package gerador.de.provas.aleatorias.presenter;
 import gerador.de.provas.aleatorias.model.importar.Marcador;
 import gerador.de.provas.aleatorias.model.importar.ModoPagina;
 import gerador.de.provas.aleatorias.model.importar.Pagina;
+import gerador.de.provas.aleatorias.model.importar.Questao;
+import gerador.de.provas.aleatorias.model.pdf.Contexto;
 import gerador.de.provas.aleatorias.model.pdf.PDF;
 import gerador.de.provas.aleatorias.util.Janela;
+import gerador.de.provas.aleatorias.util.Utils;
 import gerador.de.provas.aleatorias.view.ImportarView;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -43,6 +49,7 @@ public class ImportarPresenter {
     private Pagina current;
 
     boolean modo_gabarito_em_outro_arquivo = false;
+    boolean separado_por_regex = false;
 
     public ImportarPresenter() {
         view = new ImportarView();
@@ -70,6 +77,18 @@ public class ImportarPresenter {
             view.dispose();
             return;
         }
+
+        view.getComo_fazer_isso().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Utils.openURL("https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum");
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
 
         view.getGabarito_no_outro_arquivo().addActionListener((e) -> {
             if (view.getGabarito_no_outro_arquivo().isSelected()) {
@@ -155,6 +174,21 @@ public class ImportarPresenter {
                 update();
             }
         });
+
+        view.getAplicar_a_esta_pagina_btn().addActionListener((e) -> {
+            identificarPartes(false, false);
+        });
+
+        view.getAplicar_a_todos_desse_arquivo_btn().addActionListener((e) -> {
+            identificarPartes(true, false);
+        });
+        view.getAplicar_a_todos_btn().addActionListener((e) -> {
+            identificarPartes(false, true);
+        });
+
+        view.getImportar_botao().addActionListener((e) -> {
+            importar();
+        });
     }
 
     private int carregarArquivos() {
@@ -178,16 +212,12 @@ public class ImportarPresenter {
             questoes.addAll(arquivos_de_questoes);
             gabaritos.addAll(arquivos_de_gabaritos);
 
-            if (questoes.size() == gabaritos.size()
+            view.getGabarito_no_outro_arquivo().setSelected(modo_gabarito_em_outro_arquivo = questoes.size() == gabaritos.size()
                     && Janela.showDialogisYes(view, "Mudar para gbarito em outro arquivo",
                             "As questoes estão em arquivos diferente dos gabaritos?")
-                    && modo_em_outro_arquivo_ok(questoes, gabaritos)) {
-                modo_gabarito_em_outro_arquivo = true;
-            } else {
-                modo_gabarito_em_outro_arquivo = false;
-            }
+                    && modo_em_outro_arquivo_ok(questoes, gabaritos));
 
-            view.setEnabled(false);
+            enableControls(false);
             new Thread(() -> {
                 for (File arquivo : todos_arquivos) {
 
@@ -202,7 +232,7 @@ public class ImportarPresenter {
                     }
 
                     if (!add) {
-                        view.setEnabled(true);
+                        enableControls(true);
                         return;
                     }
 
@@ -219,7 +249,7 @@ public class ImportarPresenter {
                         Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                view.setEnabled(true);
+                enableControls(true);
                 first();
             }).start();
 
@@ -294,7 +324,7 @@ public class ImportarPresenter {
     }
 
     void setPage(int i) {
-        if (paginas.size() < 1) {
+        if (paginas.size() < 1 || !esta_partido_ok()) {
             return;
         }
         current = paginas.get(Math.max(0, Math.min(paginas.size() - 1, i)));
@@ -507,4 +537,241 @@ public class ImportarPresenter {
 
         update();
     }
+
+    void identificarPartes(boolean tudo_do_arquivo, boolean tudo) {
+
+        String t1 = view.getModelo_de_inicio_de_questao().getText();
+        String t2 = view.getModelo_de_inicio_de_gabarito().getText();
+
+        if (tudo) {
+            for (PDF pdf : arquivos) {
+                pdf.getPages().forEach((t) -> {
+                    processaPagina(t, t1, t2);
+                });
+            }
+        } else if (tudo_do_arquivo) {
+            current.getPdf().getPages().forEach((t) -> {
+                processaPagina(t, t1, t2);
+            });
+        } else {
+            processaPagina(current, t1, t2);
+        }
+
+        update();
+    }
+
+    void processaPagina(Pagina pagina, String t1, String t2) {
+        enableControls(false);
+        try {
+            Contexto contexto = pagina.getContexto();
+            boolean tmp = false;
+            switch (pagina.getModoPagina()) {
+                case QUESTAO: {
+                    for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
+                        if (linha.getValue().replace("\n", "").trim().matches(t1)) {
+                            pagina.addMarcador(linha.getKey());
+                            tmp = true;
+                        }
+                    }
+                    break;
+                }
+                case GABARITO: {
+                    for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
+                        if (linha.getValue().replace("\n", "").trim().matches(t2)) {
+                            pagina.addMarcador(linha.getKey());
+                            tmp = true;
+                        }
+                    }
+                    break;
+                }
+                case MISTO: {
+                    boolean esperando_q = true;
+                    for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
+                        if (linha.getValue().replace("\n", "").trim().matches(esperando_q ? t1 : t2)) {
+                            pagina.addMarcador(linha.getKey());
+                            esperando_q = !esperando_q;
+                            tmp = true;
+                        }
+                    }
+                    break;
+                }
+            }
+            if (tmp) {
+                if (view.getExcluir_parte_branca().isSelected()) {
+                    pagina.eliminarFim();
+                }
+                separado_por_regex = true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Ocorreu em erro: " + e);
+        } finally {
+            enableControls(true);
+        }
+    }
+
+    private void enableControls(boolean enable) {
+        view.getFirst_page_nav_button().setEnabled(enable);
+        view.getPrevious_page_nav_button().setEnabled(enable);
+        view.getAtual_page_spinner().setEnabled(enable);
+        view.getNext_page_nav_button().setEnabled(enable);
+        view.getLast_page_nav_button().setEnabled(enable);
+        view.getMarcadores_btn().setEnabled(enable);
+        view.getImportar_botao().setEnabled(enable);
+        view.getCarregar_mais_arquivos().setEnabled(enable);
+        view.getModelo_de_inicio_de_gabarito().setEnabled(enable);
+        view.getModelo_de_inicio_de_questao().setEnabled(enable);
+        view.getExcluir_parte_branca().setEnabled(enable);
+        view.getGabarito_no_outro_arquivo().setEnabled(enable);
+        view.getGabarito_apos_cada_questao().setEnabled(enable);
+        view.getAplicar_a_todos_btn().setEnabled(enable);
+        view.getAplicar_a_esta_pagina_btn().setEnabled(enable);
+        view.getAplicar_a_todos_desse_arquivo_btn().setEnabled(enable);
+        view.getRemover_marcador().setEnabled(enable);
+        view.getAdicionar_marcador().setEnabled(enable);
+        view.getEliminar_questao().setEnabled(enable);
+        view.getOcultar_regiao_do_marcador_text().setEnabled(enable);
+        view.getAplicar_btn().setEnabled(enable);
+        view.getNome_da_prova().setEnabled(enable);
+        view.getComo_fazer_isso().setEnabled(enable);
+    }
+
+    boolean esta_partido_ok() {
+
+        if (current != null) {
+
+            Iterator<Marcador> it = current.getMarcadores().iterator();
+            int cont = 0;
+            boolean esp_gab = false;
+            while (it.hasNext()) {
+                Marcador next = it.next();
+                if (next.visible()) {
+                    switch (current.getModoPagina()) {
+                        case QUESTAO:
+                        case GABARITO:
+                            if (cont == 0) {
+                                cont = next.getArea().getNumero();
+                            } else {
+                                int p = next.getArea().getNumero();
+                                if (cont + 1 != p) {
+                                    JOptionPane.showMessageDialog(view, next.getArea().toString() + " não segue a sequencia esperada: " + (cont + 1) + " acerte isso.");
+                                    return false;
+                                } else {
+                                    cont++;
+                                }
+                            }
+                            break;
+                        case MISTO:
+
+                            int t = next.getArea().getNumero();
+                            boolean isq = next.getArea().isQuestao();
+
+                            if (cont == 0) {
+                                cont = t;
+                                esp_gab = true;
+                            } else {
+
+                                if (esp_gab) {
+                                    if (!isq) {
+                                        if (t == cont) {
+                                            cont++;
+                                            esp_gab = false;
+                                        } else {
+                                            JOptionPane.showMessageDialog(view,
+                                                    "Falta gabarito para questão " + cont + " ? ou é: " + next.getArea().toString() + ". acerte isso.");
+                                            return false;
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(view,
+                                                "Esperava que " + next.getArea().toString() + " fosse gabarito. acerte isso.");
+                                        return false;
+                                    }
+                                } else {
+                                    if (isq) {
+                                        if (cont == t) {
+                                            esp_gab = true;
+                                        } else {
+                                            JOptionPane.showMessageDialog(view,
+                                                    "Número errado para " + next.getArea().toString() + ". acerte isso.");
+                                            return false;
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(view,
+                                                "Esperava que " + next.getArea().toString() + " fosse questão. acerte isso.");
+                                        return false;
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+
+            if (esp_gab) {
+                JOptionPane.showMessageDialog(view,
+                        "Falta gabarito para Questão " + cont + ". acerte isso.");
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    void importar() {
+
+        enableControls(false);
+        ///ver n questao e gabarito
+        TreeSet<Questao> todas_questoes = new TreeSet<>();
+        int total = countQuestions();
+        for (int i = 1; i <= total; i++) {
+            todas_questoes.add(new Questao(i));
+        }
+
+        paginas.forEach((pagina) -> {
+            pagina.getMarcadores().forEach((t) -> {
+                todas_questoes.forEach((q) -> {
+                    q.setQuestao(t);
+                    q.setGabarito(t);
+                });
+            });
+        });
+
+        for (Questao questao : todas_questoes) {
+            if (!questao.ok()) {
+                if (questao.getGabarito() == null) {
+                    if (Janela.showDialogisYes(view, "Gabarito vazio",
+                            "deseja adicionar gabarito vazio para Questão " + questao.getNum())) {
+                        questao.setSemGabarito();
+                    } else {
+                        return;
+                    }
+                } else {
+                    if (Janela.showDialogisYes(view, "Gabarito sem questão",
+                            "deseja eliminar gabarito " + questao.getNum() + " que não tem questão?")) {
+                        questao.excluir();
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+
+        int cont = 0;
+        view.getProgressbar().setValue(cont);
+        for (Questao questao : todas_questoes) {
+            importaQuestao(questao);
+            view.getProgressbar().setValue((cont++ * 100) / total);
+        };
+
+        enableControls(true);
+
+    }
+
+    void importaQuestao(Questao questao) {
+
+        System.out.println(questao.getPagina(true) + " [" + questao.getNum() + "] => " + Arrays.toString(questao.getRectPDF(true, view.getHeight())));
+        System.out.println(questao.getPagina(false) + " [" + questao.getNum() + "] => " + Arrays.toString(questao.getRectPDF(false, view.getHeight())));
+
+    }
+
 }

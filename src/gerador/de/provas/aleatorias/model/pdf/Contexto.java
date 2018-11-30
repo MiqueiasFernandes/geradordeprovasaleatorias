@@ -152,8 +152,19 @@ public class Contexto {
 
     public List<String> getLinhasAsList(boolean log) {
         return log ? texto.entrySet().stream().map((t) -> {
-            return yimage2Yview(yPDF2Yimage(t.getKey())) + " => " + t.getValue();
+            return getNumZero(yimage2Yview(yPDF2Yimage(t.getKey()))) + " => " + t.getValue();
         }).collect(Collectors.toList()) : texto.values().stream().collect(Collectors.toList());
+    }
+
+    String getNumZero(int n) {
+        if (n < 10) {
+            return "000" + n;
+        } else if (n < 100) {
+            return "00" + n;
+        } else if (n < 1000) {
+            return "0" + n;
+        }
+        return "" + n;
     }
 
     public int yView2Yimage(int y) {
@@ -175,6 +186,10 @@ public class Contexto {
     public void setView_heiht(int h) {
         view_heiht = h;
         this.view_heiht_ratio = (image_height + 0.0001f) / view_heiht; ///quantas vezes a imagem é maior que a view
+    }
+
+    public SortedMap<Float, String> getTexto() {
+        return texto;
     }
 
 }
