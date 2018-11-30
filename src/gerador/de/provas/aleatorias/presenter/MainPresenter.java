@@ -10,7 +10,8 @@ import gerador.de.provas.aleatorias.model.TemplateProperties;
 import gerador.de.provas.aleatorias.model.WorkDir;
 import gerador.de.provas.aleatorias.util.Janela;
 import gerador.de.provas.aleatorias.view.MainView;
-import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -48,7 +49,12 @@ public class MainPresenter {
         });
 
         view.getImportar_provas_menu().addActionListener(((e) -> {
-            new ImportarPresenter();
+            new ImportarPresenter(workDir).getView().addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    salvarBancoDeProvas();
+                }
+            });
         }));
 
         view.setVisible(true);

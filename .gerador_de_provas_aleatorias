@@ -1,8 +1,8 @@
-#Modificado em: 2018-11-29T23:13:28.794
-#Thu Nov 29 23:13:28 BRST 2018
+#Modificado em: 2018-11-30T16:47:12.696
+#Fri Nov 30 16:47:12 BRST 2018
 WORK_DIR=gpa/
 TMP_DIR=gpa/tmp/
-ZIP_PATH=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho\\banco de provas.gpa
+ZIP_PATH=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho\\bancod de provas.gpa
 QUESTOES_DIR=gpa/questoes/
 LOCAL_PROPERTIES=.gerador_de_provas_aleatorias
 PROVAS_DIR=gpa/provas

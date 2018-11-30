@@ -8,12 +8,15 @@ package gerador.de.provas.aleatorias.model;
 import gerador.de.provas.aleatorias.GeradorDeProvasAleatorias;
 import gerador.de.provas.aleatorias.util.Arquivo;
 import gerador.de.provas.aleatorias.util.Janela;
+import gerador.de.provas.aleatorias.util.Utils;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -167,12 +170,59 @@ public class WorkDir {
         Files.createDirectory(tmp_dir.toPath());
     }
 
-    public File[] getQuestoes() {
-        return questoes_dir.listFiles();
+    /**
+     *
+     * @return nome das pastas que é os tipos de provas
+     */
+    public File[] getQuestoesFolders() {
+        return questoes_dir.listFiles(); /// retorna
     }
 
-    public File[] getGabaritos() {
-        return gabaritos_dir.listFiles();
+    /**
+     *
+     * @return nome das pastas que é os tipos de provas
+     */
+    public File[] getGabaritosFolders() {
+        return gabaritos_dir.listFiles();/// retorna pastas com nome dos tipos de provas
+    }
+
+    /**
+     *
+     * @param type tipo de prova
+     * @return nome das pastas que é os tipos de provas
+     */
+    public File[] getQuestoesofType(String type) {
+        File[] listFiles = getQuestoesFolders();
+
+        if (listFiles != null) {
+            for (File dir : listFiles) {
+                if (dir.getName().equals(type) && dir.isDirectory()) {
+                    return dir.listFiles();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param type tipo de prova
+     * @return nome das pastas que é os tipos de provas
+     */
+    public File[] getGabaritosofType(String type) {
+
+        File[] listFiles = getGabaritosFolders();
+
+        if (listFiles != null) {
+            for (File dir : listFiles) {
+                if (dir.getName().equals(type) && dir.isDirectory()) {
+                    return dir.listFiles();
+                }
+            }
+        }
+
+        return null;
     }
 
     public File[] getProvas() {
@@ -180,8 +230,35 @@ public class WorkDir {
     }
 
     public int getNumQuestoes() {
-        File[] listFiles = getQuestoes();
-        return listFiles == null ? 0 : listFiles.length;
+
+        File[] folders = getQuestoesFolders();
+        if (folders == null) {
+            return 0;
+        }
+
+        int cont = 0;
+        for (File tipo : folders) {
+            File[] questoesofType = getQuestoesofType(tipo.getName());
+            cont = questoesofType == null ? 0 : questoesofType.length;
+        }
+
+        return cont;
+    }
+
+    public int getNumGabaritos() {
+
+        File[] folders = getGabaritosFolders();
+        if (folders == null) {
+            return 0;
+        }
+
+        int cont = 0;
+        for (File tipo : folders) {
+            File[] questoesofType = getGabaritosofType(tipo.getName());
+            cont = questoesofType == null ? 0 : questoesofType.length;
+        }
+
+        return cont;
     }
 
     public int getNumProvas() {
@@ -189,9 +266,18 @@ public class WorkDir {
         return listFiles == null ? 0 : listFiles.length;
     }
 
-    public int getNumGabaritos() {
-        File[] listFiles = getGabaritos();
-        return listFiles == null ? 0 : listFiles.length;
+    public String[] getTiposdeProvas() {
+        File[] folders = getQuestoesFolders();
+        if (folders == null) {
+            return null;
+        }
+        return Arrays.asList(folders).stream().map((t) -> {
+            return t.getName();
+        }).collect(Collectors.toList()).toArray(new String[]{});
+    }
+
+    public boolean hasTipodeProva(String tipo) {
+        return Utils.inArray(getTiposdeProvas(), tipo);
     }
 
 }

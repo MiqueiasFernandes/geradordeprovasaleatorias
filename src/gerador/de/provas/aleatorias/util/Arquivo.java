@@ -26,6 +26,10 @@ import java.util.zip.ZipOutputStream;
  */
 public class Arquivo {
 
+    public static void deleteDirectoryRecursive(String path) throws IOException {
+        deleteDirectoryRecursive(new File(path).toPath());
+    }
+
     public static void deleteDirectoryRecursive(Path path) throws IOException {
         Files.walk(path)
                 .sorted(Comparator.reverseOrder())
@@ -118,6 +122,5 @@ public class Arquivo {
         zis.closeEntry();
         zis.close();
     }
-    
-    
+
 }

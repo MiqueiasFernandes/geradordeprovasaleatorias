@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
@@ -52,11 +54,8 @@ public class PDF {
                     document.getPage(page),
                     pdfRenderer.renderImageWithDPI(page, DPI, ImageType.RGB), page, start + page));
         }
-        progress.setValue(100);
-    }
 
-    public void close() throws IOException {
-        document.close();
+        progress.setValue(100);
     }
 
     public File getFile() {
@@ -83,6 +82,14 @@ public class PDF {
         pages.forEach((t) -> {
             t.setModoPagina(modoPagina);
         });
+    }
+
+    public void close() {
+        try {
+            document.close();
+        } catch (IOException ex) {
+            Logger.getLogger(PDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

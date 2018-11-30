@@ -79,6 +79,22 @@ public class Questao implements Comparable<Questao> {
         return fs;
     }
 
+    public int[] getRectImage(boolean qst, int view_h) {
+        int[] fs = new int[4];
+
+        Marcador m = qst ? questao : gabarito;
+        if (m == null) {
+            return null;
+        }
+
+        fs[0] = 0;
+        fs[1] = m.getY_image();
+        fs[2] = m.getPagina().getImage().getWidth();
+        fs[3] = m.getContexto().yView2Yimage(m.getArea().getH(view_h));
+
+        return fs;
+    }
+
     public Pagina getPagina(boolean qst) {
         return qst ? (questao == null ? null : questao.getPagina()) : (gabarito == null ? null : gabarito.getPagina());
     }

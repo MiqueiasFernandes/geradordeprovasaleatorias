@@ -177,11 +177,12 @@ public class ImportarView extends javax.swing.JFrame {
 
         jLabel3.setText("Modelo de início de questão");
 
-        modelo_de_inicio_de_questao.setText("1)");
+        modelo_de_inicio_de_questao.setText("\\d+\\..*");
 
         jLabel4.setText("Modelo de início de gabarito");
 
-        modelo_de_inicio_de_gabarito.setText("1)");
+        modelo_de_inicio_de_gabarito.setText("Gabarito \\d+.*|Resposta.*|\\d{1} \\d{6}");
+        modelo_de_inicio_de_gabarito.setToolTipText("");
 
         aplicar_a_todos_desse_arquivo_btn.setText("Aplicar a todas páginas desse arquivo");
 

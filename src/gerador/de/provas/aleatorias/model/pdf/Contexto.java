@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.TextPosition;
 
 /**
@@ -126,7 +127,9 @@ public class Contexto {
     }
 
     public void parse() throws IOException {
-        pagina.getText(pagina.getDocument());
+        PDDocument document = new PDDocument();
+        document.addPage(pagina.getpDPage());
+        pagina.getText(document);
 
         y_linhas_sorted = y_linhas.toArray(new Float[]{});
         Arrays.sort(y_linhas_sorted);

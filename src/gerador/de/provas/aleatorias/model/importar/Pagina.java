@@ -9,11 +9,14 @@ import gerador.de.provas.aleatorias.model.pdf.Contexto;
 import gerador.de.provas.aleatorias.model.pdf.PDF;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.TreeSet;
+import javax.imageio.ImageIO;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
@@ -30,7 +33,6 @@ public class Pagina extends PDFTextStripper {
     int index_global;
     int index_questao;
     Contexto contexto;
-    private final PDDocument document;
     private final TreeSet<Marcador> marcadores;
     ModoPagina modoPagina;
     private List<Integer> questao_excluida;
@@ -41,8 +43,6 @@ public class Pagina extends PDFTextStripper {
         this.image = image;
         this.index = index;
         this.index_global = index_global;
-        document = new PDDocument();
-        document.addPage(pDPage);
         super.setSortByPosition(true);
 
         this.contexto = new Contexto(this);
@@ -58,10 +58,6 @@ public class Pagina extends PDFTextStripper {
     @Override
     protected void processTextPosition(TextPosition text) {
         contexto.setTextPosition(text);
-    }
-
-    public PDDocument getDocument() {
-        return document;
     }
 
     public String getLog() {
@@ -196,6 +192,35 @@ public class Pagina extends PDFTextStripper {
     @Override
     public String toString() {
         return pdf.getFile().getName() + " (Página " + (index + 1) + ")";
+    }
+
+    public void savePartAsImage(int[] bounds, String local) throws IOException {
+        ImageIO.write(
+                image.getSubimage(bounds[0], bounds[1], bounds[2], bounds[3]),
+                "png",
+                new File(local));
+    }
+
+    ////     x1,y1
+    ///             x2,y2
+    public void savePartAsPDF(float[] bounds, String local) throws IOException {
+
+        PDRectangle mediaBox = pDPage.getMediaBox();
+
+        PDRectangle box = new PDRectangle(bounds[0], mediaBox.getHeight() - bounds[1] - bounds[3], bounds[2], bounds[3]);
+
+        pDPage.setMediaBox(box);
+
+        try (PDDocument tmp = new PDDocument()) {
+            tmp.addPage(pDPage);
+
+            System.out.println("salvando " + local);
+            tmp.save(local);
+            tmp.close();
+        }
+
+        pDPage.setMediaBox(mediaBox);
+
     }
 
 }

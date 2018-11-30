@@ -5,12 +5,14 @@
  */
 package gerador.de.provas.aleatorias.presenter;
 
+import gerador.de.provas.aleatorias.model.WorkDir;
 import gerador.de.provas.aleatorias.model.importar.Marcador;
 import gerador.de.provas.aleatorias.model.importar.ModoPagina;
 import gerador.de.provas.aleatorias.model.importar.Pagina;
 import gerador.de.provas.aleatorias.model.importar.Questao;
 import gerador.de.provas.aleatorias.model.pdf.Contexto;
 import gerador.de.provas.aleatorias.model.pdf.PDF;
+import gerador.de.provas.aleatorias.util.Arquivo;
 import gerador.de.provas.aleatorias.util.Janela;
 import gerador.de.provas.aleatorias.util.Utils;
 import gerador.de.provas.aleatorias.view.ImportarView;
@@ -21,11 +23,13 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +43,8 @@ import javax.swing.JOptionPane;
  */
 public class ImportarPresenter {
 
-    private ImportarView view;
+    private final ImportarView view;
+    private final WorkDir workDir;
 
     private ArrayList<PDF> arquivos = new ArrayList<>();
     private ArrayList<File> questoes = new ArrayList<>();
@@ -51,7 +56,8 @@ public class ImportarPresenter {
     boolean modo_gabarito_em_outro_arquivo = false;
     boolean separado_por_regex = false;
 
-    public ImportarPresenter() {
+    public ImportarPresenter(WorkDir workDir) {
+        this.workDir = workDir;
         view = new ImportarView();
 
         view.getFirst_page_nav_button().addActionListener((e) -> {
@@ -187,7 +193,9 @@ public class ImportarPresenter {
         });
 
         view.getImportar_botao().addActionListener((e) -> {
-            importar();
+            new Thread(() -> {
+                importar();
+            }).start();
         });
     }
 
@@ -756,22 +764,91 @@ public class ImportarPresenter {
             }
         }
 
+        String local_questoes = workDir.getProperties().getQUESTOES_DIR();
+        String local_gabarito = workDir.getProperties().getGABARITOS_DIR();
+        String tipo = view.getNome_da_prova().getText().replaceAll("[^a-zA-Z0-9]", "_");
+        if (workDir.hasTipodeProva(tipo)) {
+            JOptionPane.showMessageDialog(view, "Esse tipo de prova já existe, escolha outro nome.");
+            return;
+        }
+
+        local_questoes += "/" + tipo;
+        local_gabarito += "/" + tipo;
+
+        try {
+            Files.createDirectory(new File(local_questoes).toPath());
+            Files.createDirectory(new File(local_gabarito).toPath());
+        } catch (IOException ex) {
+            Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(view, "Erro, impossivel criar diretorio em disco, verifique espaço e permissões: " + local_questoes + " " + local_gabarito);
+            return;
+        }
+
         int cont = 0;
         view.getProgressbar().setValue(cont);
         for (Questao questao : todas_questoes) {
-            importaQuestao(questao);
-            view.getProgressbar().setValue((cont++ * 100) / total);
+            cont++;
+            if (!importaQuestao(
+                    questao,
+                    local_questoes + "/" + cont + ".pdf",
+                    local_gabarito + "/" + cont + ".pdf")) {
+
+                try {
+                    Arquivo.deleteDirectoryRecursive(local_questoes);
+                    Arquivo.deleteDirectoryRecursive(local_gabarito);
+                } catch (IOException ex) {
+                    Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    view.getProgressbar().setValue(100);
+                }
+                return;
+
+            }
+            view.getProgressbar().setValue((cont * 100) / total);
         };
+
+        if (cont != total) {
+            JOptionPane.showMessageDialog(view, "Alguma coisa deu errado, apenas "
+                    + cont + " questões foram salvas, tente novamente.");
+        }
 
         enableControls(true);
 
+        arquivos.forEach((pdf) -> {
+            pdf.close();
+        });
+
+        view.dispose();
+
     }
 
-    void importaQuestao(Questao questao) {
+    boolean importaQuestao(Questao questao, String local_questoes, String local_gabarito) {
 
-        System.out.println(questao.getPagina(true) + " [" + questao.getNum() + "] => " + Arrays.toString(questao.getRectPDF(true, view.getHeight())));
-        System.out.println(questao.getPagina(false) + " [" + questao.getNum() + "] => " + Arrays.toString(questao.getRectPDF(false, view.getHeight())));
+        float[] bounds_questao = questao.getRectPDF(true, view.getHeight());
+        float[] bounds_gabarito = questao.getRectPDF(false, view.getHeight());
+        int[] rect_questao = questao.getRectImage(true, view.getHeight());
+        int[] rect_gabarito = questao.getRectImage(false, view.getHeight());
 
+        System.out.println(questao.getPagina(true) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_questao));
+        System.out.println(questao.getPagina(false) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_gabarito));
+
+        try {
+            questao.getPagina(true).savePartAsImage(rect_questao, local_questoes);
+            questao.getPagina(false).savePartAsImage(rect_gabarito, local_gabarito);
+            questao.getPagina(true).savePartAsPDF(bounds_questao, local_questoes);
+            questao.getPagina(false).savePartAsPDF(bounds_gabarito, local_gabarito);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(view, "Falhou ao savar " + local_questoes + " e " + local_gabarito + " : abortando ...");
+            Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public ImportarView getView() {
+        return view;
     }
 
 }
