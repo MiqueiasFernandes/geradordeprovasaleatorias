@@ -5,6 +5,18 @@
  */
 package gerador.de.provas.aleatorias.view;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
+import javax.swing.JList;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
 /**
  *
  * @author conta
@@ -16,6 +28,68 @@ public class GerarView extends javax.swing.JFrame {
      */
     public GerarView() {
         initComponents();
+        buttonGroup1.add(cabecalho_existente_radio);
+        buttonGroup1.add(cabecalho_personalizado_radio);
+    }
+
+    public JRadioButton getCabecalho_existente_radio() {
+        return cabecalho_existente_radio;
+    }
+
+    public JRadioButton getCabecalho_personalizado_radio() {
+        return cabecalho_personalizado_radio;
+    }
+
+    public JComboBox<String> getCabecalho_select() {
+        return cabecalho_select;
+    }
+
+    public JEditorPane getCabecalho_txt() {
+        return cabecalho_txt;
+    }
+
+    public JButton getCriar_btn() {
+        return criar_btn;
+    }
+
+    public JButton getImportar_btn() {
+        return importar_btn;
+    }
+
+    public JButton getLimpar_btn() {
+        return limpar_btn;
+    }
+
+    public JTextField getNome_da_prova_txt() {
+        return nome_da_prova_txt;
+    }
+
+    public JTable getTabela() {
+        return tabela;
+    }
+
+    public JSpinner getQuantidade_provas_num() {
+        return quantidade_provas_num;
+    }
+
+    public JSpinner getQuantidade_questoes_num() {
+        return quantidade_questoes_num;
+    }
+
+    public JCheckBox getQuestao_aparecer_chk() {
+        return questao_aparecer_chk;
+    }
+
+    public JTextPane getLog() {
+        return log;
+    }
+
+    public JCheckBox getEquilibrar_quantidade() {
+        return equilibrar_quantidade;
+    }
+
+    public JButton getSalvar_btn() {
+        return salvar_btn;
     }
 
     /**
@@ -27,17 +101,206 @@ public class GerarView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabel1 = new javax.swing.JLabel();
+        nome_da_prova_txt = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        quantidade_questoes_num = new javax.swing.JSpinner();
+        questao_aparecer_chk = new javax.swing.JCheckBox();
+        jPanel1 = new javax.swing.JPanel();
+        cabecalho_existente_radio = new javax.swing.JRadioButton();
+        cabecalho_select = new javax.swing.JComboBox<>();
+        cabecalho_personalizado_radio = new javax.swing.JRadioButton();
+        importar_btn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        cabecalho_txt = new javax.swing.JEditorPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
+        limpar_btn = new javax.swing.JButton();
+        criar_btn = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        quantidade_provas_num = new javax.swing.JSpinner();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        log = new javax.swing.JTextPane();
+        equilibrar_quantidade = new javax.swing.JCheckBox();
+        salvar_btn = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gerar Provas");
+
+        jLabel1.setText("Nome da prova:");
+
+        nome_da_prova_txt.setText("prova do primeiro semestre");
+
+        jLabel2.setText("Quantidade de questões por prova:");
+        jLabel2.setToolTipText("");
+
+        questao_aparecer_chk.setSelected(true);
+        questao_aparecer_chk.setText("Permitir repetir questões entre provas");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Cabeçalho da prova"));
+
+        cabecalho_existente_radio.setText("Cabeçalho existente");
+
+        cabecalho_personalizado_radio.setSelected(true);
+        cabecalho_personalizado_radio.setText("Cabeçalho personalizado");
+
+        importar_btn.setText("Importar cabeçalho");
+
+        cabecalho_txt.setText("                                       PROVA\nNOME: _____________________________\nDATA: ___/ ___/  20__");
+        jScrollPane1.setViewportView(cabecalho_txt);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cabecalho_existente_radio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cabecalho_select, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(importar_btn))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cabecalho_personalizado_radio)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cabecalho_existente_radio)
+                    .addComponent(cabecalho_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(importar_btn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cabecalho_personalizado_radio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Conteúdo da prova"));
+
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tipo de prova", "Quant. Mínima de Qst.", "Quant. Máxima de Qst.", "Sequência"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tabela);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+        );
+
+        limpar_btn.setText("Limpar");
+        limpar_btn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        criar_btn.setText("Gerar");
+        criar_btn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel3.setText("Quantidade de provas aleatorias:");
+
+        jScrollPane2.setViewportView(log);
+
+        equilibrar_quantidade.setSelected(true);
+        equilibrar_quantidade.setText("Equilibrar quantidade de questões por prova");
+
+        salvar_btn.setText("Salvar");
+        salvar_btn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nome_da_prova_txt)
+                        .addGap(40, 40, 40)
+                        .addComponent(limpar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(criar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(salvar_btn))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(quantidade_provas_num))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(quantidade_questoes_num, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(questao_aparecer_chk)
+                            .addComponent(equilibrar_quantidade))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(limpar_btn)
+                    .addComponent(criar_btn)
+                    .addComponent(jLabel1)
+                    .addComponent(nome_da_prova_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salvar_btn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(quantidade_provas_num, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(equilibrar_quantidade))
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(quantidade_questoes_num, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(questao_aparecer_chk))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -45,5 +308,29 @@ public class GerarView extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton cabecalho_existente_radio;
+    private javax.swing.JRadioButton cabecalho_personalizado_radio;
+    private javax.swing.JComboBox<String> cabecalho_select;
+    private javax.swing.JEditorPane cabecalho_txt;
+    private javax.swing.JButton criar_btn;
+    private javax.swing.JCheckBox equilibrar_quantidade;
+    private javax.swing.JButton importar_btn;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton limpar_btn;
+    private javax.swing.JTextPane log;
+    private javax.swing.JTextField nome_da_prova_txt;
+    private javax.swing.JSpinner quantidade_provas_num;
+    private javax.swing.JSpinner quantidade_questoes_num;
+    private javax.swing.JCheckBox questao_aparecer_chk;
+    private javax.swing.JButton salvar_btn;
+    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

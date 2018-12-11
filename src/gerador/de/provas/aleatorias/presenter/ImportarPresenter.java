@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -728,7 +727,6 @@ public class ImportarPresenter {
     void importar() {
 
         enableControls(false);
-        ///ver n questao e gabarito
         TreeSet<Questao> todas_questoes = new TreeSet<>();
         int total = countQuestions();
         for (int i = 1; i <= total; i++) {
@@ -751,6 +749,7 @@ public class ImportarPresenter {
                             "deseja adicionar gabarito vazio para Questão " + questao.getNum())) {
                         questao.setSemGabarito();
                     } else {
+                        enableControls(true);
                         return;
                     }
                 } else {
@@ -758,6 +757,7 @@ public class ImportarPresenter {
                             "deseja eliminar gabarito " + questao.getNum() + " que não tem questão?")) {
                         questao.excluir();
                     } else {
+                        enableControls(true);
                         return;
                     }
                 }
@@ -769,6 +769,7 @@ public class ImportarPresenter {
         String tipo = view.getNome_da_prova().getText().replaceAll("[^a-zA-Z0-9]", "_");
         if (workDir.hasTipodeProva(tipo)) {
             JOptionPane.showMessageDialog(view, "Esse tipo de prova já existe, escolha outro nome.");
+            enableControls(true);
             return;
         }
 
@@ -780,25 +781,32 @@ public class ImportarPresenter {
             Files.createDirectory(new File(local_gabarito).toPath());
         } catch (IOException ex) {
             Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(view, "Erro, impossivel criar diretorio em disco, verifique espaço e permissões: " + local_questoes + " " + local_gabarito);
+            JOptionPane.showMessageDialog(view, "Erro, impossivel criar diretorio em disco, "
+                    + "verifique espaço e permissões: " + local_questoes + " " + local_gabarito);
+            enableControls(true);
             return;
         }
 
         int cont = 0;
         view.getProgressbar().setValue(cont);
         for (Questao questao : todas_questoes) {
+
+            if (!questao.isRegex()) {
+                separado_por_regex = false;
+            }
+
             cont++;
             if (!importaQuestao(
                     questao,
                     local_questoes + "/" + cont + ".pdf",
                     local_gabarito + "/" + cont + ".pdf")) {
-
                 try {
                     Arquivo.deleteDirectoryRecursive(local_questoes);
                     Arquivo.deleteDirectoryRecursive(local_gabarito);
                 } catch (IOException ex) {
                     Logger.getLogger(ImportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
+                    enableControls(true);
                     view.getProgressbar().setValue(100);
                 }
                 return;
@@ -813,6 +821,12 @@ public class ImportarPresenter {
         }
 
         enableControls(true);
+
+        if (separado_por_regex) {
+            workDir.getProperties().addProvaComRegex(tipo,
+                    view.getModelo_de_inicio_de_questao().getText(),
+                    view.getModelo_de_inicio_de_gabarito().getText());
+        }
 
         arquivos.forEach((pdf) -> {
             pdf.close();
@@ -829,9 +843,8 @@ public class ImportarPresenter {
 //        int[] rect_questao = questao.getRectImage(true, view.getHeight());
 //        int[] rect_gabarito = questao.getRectImage(false, view.getHeight());
 
-        System.out.println(questao.getPagina(true) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_questao));
-        System.out.println(questao.getPagina(false) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_gabarito));
-
+//        System.out.println(questao.getPagina(true) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_questao));
+//        System.out.println(questao.getPagina(false) + " [" + questao.getNum() + "] => " + Arrays.toString(bounds_gabarito));
         try {
 //            questao.getPagina(true).savePartAsImage(rect_questao, local_questoes);
 //            questao.getPagina(false).savePartAsImage(rect_gabarito, local_gabarito);

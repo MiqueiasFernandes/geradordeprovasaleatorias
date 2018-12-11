@@ -36,9 +36,18 @@ public class Singleton {
     }
 
     private int marcador_count = 0;
+    private int prova_count = 0;
 
     public int getNextMarcadorID() {
         return ++marcador_count;
+    }
+
+    public int getNextProvaID() {
+        return ++prova_count;
+    }
+
+    public int getNextRandomInt(int limit) {
+        return random.nextInt(limit);
     }
 
     private Singleton() {

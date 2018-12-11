@@ -99,4 +99,9 @@ public class Questao implements Comparable<Questao> {
         return qst ? (questao == null ? null : questao.getPagina()) : (gabarito == null ? null : gabarito.getPagina());
     }
 
+    public boolean isRegex() {
+        return (questao != null ? questao.isGerado() : true)
+                && (gabarito != null ? gabarito.isGerado() : true);
+    }
+
 }

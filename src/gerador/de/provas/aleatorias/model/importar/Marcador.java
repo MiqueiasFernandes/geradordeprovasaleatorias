@@ -20,6 +20,7 @@ public class Marcador implements Comparable<Marcador> {
     private final int y_image;
     private final Area area;
     private final int id;
+    private final boolean gerado;
 
     public Marcador(Pagina pagina, Contexto contexto, int y_image, boolean oculto) {
         this.id = Singleton.getInstance().getNextMarcadorID();
@@ -31,6 +32,7 @@ public class Marcador implements Comparable<Marcador> {
         if (oculto) {
             area.ocultar();
         }
+        gerado = true;
     }
 
     public Marcador(Pagina pagina, Contexto contexto, int y_view) {
@@ -40,6 +42,7 @@ public class Marcador implements Comparable<Marcador> {
         this.y_image = contexto.yView2Yimage(y_view);
         this.y_pdf = contexto.yimage2YPDF(y_image);
         this.area = new Area(this, pagina);
+        gerado = false;
     }
 
     public Marcador(Pagina pagina, Contexto contexto, float y_pdf) {
@@ -49,6 +52,7 @@ public class Marcador implements Comparable<Marcador> {
         this.y_pdf = y_pdf;
         this.y_image = contexto.yPDF2Yimage(y_pdf);
         this.area = new Area(this, pagina);
+        gerado = true;
     }
 
     public int getY_view() {
@@ -91,6 +95,10 @@ public class Marcador implements Comparable<Marcador> {
     @Override
     public int compareTo(Marcador o) {
         return y_image - o.y_image;
+    }
+
+    public boolean isGerado() {
+        return gerado;
     }
 
 }

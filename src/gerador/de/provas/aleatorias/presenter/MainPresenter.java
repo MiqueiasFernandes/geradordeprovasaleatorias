@@ -61,6 +61,15 @@ public class MainPresenter {
                 }
             });
         }));
+        view.getGerar_provas_menu().addActionListener(((e) -> {
+            new GerarPresenter(workDir, bancoDeProvas).getView().addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    salvarBancoDeProvas();
+                    verificar_se_tem_banco();
+                }
+            });
+        }));
 
         view.setVisible(true);
 

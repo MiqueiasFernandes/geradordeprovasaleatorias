@@ -15,8 +15,10 @@ import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Properties;
 import java.util.Random;
+import sun.misc.BASE64Encoder;
 
 /**
  *
@@ -62,6 +64,14 @@ public class Utils {
                 /* TODO: error handling */ }
         } else {
             /* TODO: error handling */ }
+    }
+
+    public static String toB64(String text) {
+        return Base64.getEncoder().encodeToString(text.getBytes()).replace("=", "-");
+    }
+
+    public static String fromB64(String text) {
+        return new String(Base64.getDecoder().decode(text.replace("-", "=")));
     }
 
 }

@@ -13,6 +13,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +25,8 @@ import java.util.stream.Collectors;
  */
 public class WorkDir {
 
-    TemplateProperties properties;
-    File work_dir, tmp_dir, provas_dir, questoes_dir, gabaritos_dir;
+    private TemplateProperties properties;
+    private File work_dir, tmp_dir, provas_dir, questoes_dir, gabaritos_dir, cabecalhos_dir;
 
     public WorkDir(TemplateProperties properties) {
         this.properties = properties;
@@ -34,11 +35,14 @@ public class WorkDir {
         provas_dir = new File(properties.getPROVAS_DIR());
         questoes_dir = new File(properties.getQUESTOES_DIR());
         gabaritos_dir = new File(properties.getGABARITOS_DIR());
+        cabecalhos_dir = new File(properties.getCABECALHOS_DIR());
     }
 
     public void clearWorkDir() {
         try {
-            Arquivo.deleteDirectoryRecursive(work_dir.toPath());
+            if (work_dir.exists()) {
+                Arquivo.deleteDirectoryRecursive(work_dir.toPath());
+            }
         } catch (IOException ex) {
             Logger.getLogger(WorkDir.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,6 +68,9 @@ public class WorkDir {
         }
         if (!gabaritos_dir.exists()) {
             Files.createDirectory(gabaritos_dir.toPath());
+        }
+        if (!cabecalhos_dir.exists()) {
+            Files.createDirectory(cabecalhos_dir.toPath());
         }
 
     }
@@ -234,7 +241,17 @@ public class WorkDir {
     }
 
     public File[] getProvasGeradas() {
-        return provas_dir.listFiles();
+        File[] fs = provas_dir.listFiles();
+        if (fs == null) {
+            return fs;
+        }
+        ArrayList<File> files = new ArrayList<>();
+        for (File f : fs) {
+            if (f.isFile()) {
+                files.add(f);
+            }
+        }
+        return files.toArray(new File[]{});
     }
 
     public int getNumQuestoes() {

@@ -7,6 +7,8 @@ package gerador.de.provas.aleatorias.model;
 
 import java.awt.Component;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,6 +44,61 @@ public class BancoDeProvas {
 
     public int getNumGabaritos() {
         return workDir.getNumGabaritos();
+    }
+
+    public boolean hasRegex(String tipo) {
+        return workDir.getProperties().hasRegex(tipo);
+    }
+
+    public String[] getRegexOf(String tipo) {
+        return workDir.getProperties().getRegexOfTipo(tipo);
+    }
+
+    public String[] getTiposDeProvas() {
+        return workDir.getTiposdeProvas();
+    }
+
+    public int getNumQuestaoOfTipo(String tipo) {
+        File[] questoesofType = workDir.getQuestoesofType(tipo);
+        return questoesofType == null ? 0 : questoesofType.length;
+    }
+
+    public File[] listarCabecalhos() {
+        File cabs = new File(workDir.getProperties().getCABECALHOS_DIR());
+        if (cabs.exists() && cabs.isDirectory()) {
+            return cabs.listFiles();
+        }
+        return null;
+    }
+
+    public Prova getProvaByName(String name) {
+        File[] provasGeradas = workDir.getProvasGeradas();
+        if (provasGeradas == null) {
+            return null;
+        }
+        for (File prova : provasGeradas) {
+            if (prova.getName().equals(name)) {
+                try {
+                    return new Prova(prova, 0);
+                } catch (Exception ex) {
+                    Logger.getLogger(BancoDeProvas.class.getName()).log(Level.SEVERE, null, ex);
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Prova getSubProvaByName(String name, int id) {
+        Prova prova = getProvaByName(name);
+        try {
+            return id < 1 || prova == null || prova.getQuantidade_de_sub_provas() < id
+                    ? null
+                    : new Prova(prova.getFile(), id);
+        } catch (Exception ex) {
+            Logger.getLogger(BancoDeProvas.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
