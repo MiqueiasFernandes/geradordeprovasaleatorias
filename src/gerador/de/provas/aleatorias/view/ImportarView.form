@@ -314,7 +314,9 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="modelo_de_inicio_de_gabarito" max="32767" attributes="0"/>
-                                      <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                                      <Component id="excluir_titulos" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -353,6 +355,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="modelo_de_inicio_de_gabarito" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="excluir_parte_branca" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="excluir_titulos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="6" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -433,6 +436,11 @@
             <Component class="javax.swing.JButton" name="aplicar_a_todos_btn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aplicar a todos arquivos"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="excluir_titulos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="excluir t&#xed;tulos"/>
               </Properties>
             </Component>
           </SubComponents>

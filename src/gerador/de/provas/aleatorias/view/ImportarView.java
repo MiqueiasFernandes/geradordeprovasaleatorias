@@ -69,6 +69,7 @@ public class ImportarView extends javax.swing.JFrame {
         excluir_parte_branca = new javax.swing.JCheckBox();
         como_fazer_isso = new javax.swing.JLabel();
         aplicar_a_todos_btn = new javax.swing.JButton();
+        excluir_titulos = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -197,6 +198,8 @@ public class ImportarView extends javax.swing.JFrame {
 
         aplicar_a_todos_btn.setText("Aplicar a todos arquivos");
 
+        excluir_titulos.setText("excluir títulos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -224,7 +227,9 @@ public class ImportarView extends javax.swing.JFrame {
                                 .addGap(6, 6, 6))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(modelo_de_inicio_de_gabarito)
-                                .addGap(151, 151, 151)))
+                                .addGap(52, 52, 52)
+                                .addComponent(excluir_titulos)
+                                .addGap(18, 18, 18)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +256,8 @@ public class ImportarView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(modelo_de_inicio_de_gabarito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(excluir_parte_branca))
+                    .addComponent(excluir_parte_branca)
+                    .addComponent(excluir_titulos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aplicar_a_todos_desse_arquivo_btn)
@@ -542,6 +548,10 @@ public class ImportarView extends javax.swing.JFrame {
         return como_fazer_isso;
     }
 
+    public JCheckBox getExcluir_titulos() {
+        return excluir_titulos;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField adicionar_marcador;
@@ -555,6 +565,7 @@ public class ImportarView extends javax.swing.JFrame {
     private javax.swing.JLabel como_fazer_isso;
     private javax.swing.JTextField eliminar_questao;
     private javax.swing.JCheckBox excluir_parte_branca;
+    private javax.swing.JCheckBox excluir_titulos;
     private javax.swing.JButton first_page_nav_button;
     private javax.swing.JLabel folha;
     private javax.swing.JRadioButton gabarito_apos_cada_questao;

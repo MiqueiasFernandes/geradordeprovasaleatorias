@@ -28,9 +28,6 @@ public class TemplateProperties {
     private String QUESTOES_DIR = "gpa/questoes/";
     private String GABARITOS_DIR = "gpa/gabaritos/";
     private String ZIP_PATH = "";
-    private String PROVAS_COM_REGEX = "";
-    private String QUESTOES_REGEX = "";
-    private String GABARITOS_REGEX = "";
 
     public TemplateProperties(String arquivo) {
         this.LOCAL_PROPERTIES = arquivo;
@@ -142,32 +139,6 @@ public class TemplateProperties {
     public void setZIP_PATH(String ZIP_PATH, Component view) throws Exception {
         this.ZIP_PATH = ZIP_PATH;
         save(view);
-    }
-
-    public boolean hasRegex(String tipo) {
-        return Utils.inArray(PROVAS_COM_REGEX.split(","), tipo);
-    }
-
-    public void addProvaComRegex(String prova, String regex_quetao, String regex_gabarito) {
-        PROVAS_COM_REGEX += (PROVAS_COM_REGEX.isEmpty() ? "" : ",") + prova;
-        QUESTOES_REGEX += (QUESTOES_REGEX.isEmpty() ? "" : ",") + Utils.toB64(regex_quetao);
-        GABARITOS_REGEX += (GABARITOS_REGEX.isEmpty() ? "" : ",") + Utils.toB64(regex_gabarito);
-    }
-
-    public String[] getRegexOfTipo(String tipo) {
-        if (!hasRegex(tipo)) {
-            return null;
-        }
-        int cont = 0;
-        for (String prova : PROVAS_COM_REGEX.split(",")) {
-            if (prova == null ? tipo == null : prova.equals(tipo)) {
-                break;
-            }
-            cont++;
-        }
-        return new String[]{
-            Utils.fromB64(QUESTOES_REGEX.split(",")[cont]),
-            Utils.fromB64(GABARITOS_REGEX.split(",")[cont])};
     }
 
 }

@@ -1,13 +1,10 @@
-#Modificado em: 2018-12-12T00:59:22.686
-#Wed Dec 12 00:59:22 BRST 2018
-TMP_DIR=gpa/tmp/
-QUESTOES_REGEX=XGQrXC4uKg--,XGQrXC4uKg--
-GABARITOS_REGEX=R2FiYXJpdG8gXGQrLip8UmVzcG9zdGEuKnxcZHsxfSBcZHs2fQ--,R2FiYXJpdG8gXGQrLip8UmVzcG9zdGEuKnxcZHsxfSBcZHs2fXxcZC4q
-GABARITOS_DIR=gpa/gabaritos/
-QUESTOES_DIR=gpa/questoes/
-PROVAS_DIR=gpa/provas
-CABECALHOS_DIR=gpa/provas/cabecalhos
-ZIP_PATH=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho\\banco de provas.gpa
-PROVAS_COM_REGEX=provas_do_primeiro_conteudo,prova_diferente
-LOCAL_PROPERTIES=.gerador_de_provas_aleatorias
+#Modificado em: 2018-12-12T12:48:01.403
+#Wed Dec 12 12:48:01 BRST 2018
 WORK_DIR=gpa/
+TMP_DIR=gpa/tmp/
+ZIP_PATH=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho\\banco de provas.gpa
+QUESTOES_DIR=gpa/questoes/
+CABECALHOS_DIR=gpa/provas/cabecalhos
+LOCAL_PROPERTIES=.gerador_de_provas_aleatorias
+PROVAS_DIR=gpa/provas
+GABARITOS_DIR=gpa/gabaritos/

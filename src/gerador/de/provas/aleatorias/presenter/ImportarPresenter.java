@@ -53,7 +53,6 @@ public class ImportarPresenter {
     private Pagina current;
 
     boolean modo_gabarito_em_outro_arquivo = false;
-    boolean separado_por_regex = false;
 
     public ImportarPresenter(WorkDir workDir) {
         this.workDir = workDir;
@@ -569,6 +568,7 @@ public class ImportarPresenter {
 
     void processaPagina(Pagina pagina, String t1, String t2) {
         enableControls(false);
+        pagina.resetAreaATapar();
         try {
             Contexto contexto = pagina.getContexto();
             boolean tmp = false;
@@ -577,6 +577,9 @@ public class ImportarPresenter {
                     for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
                         if (linha.getValue().replace("\n", "").trim().matches(t1)) {
                             pagina.addMarcador(linha.getKey());
+                            if (view.getExcluir_titulos().isSelected()) {
+                                contexto.tapar(linha.getKey(), (t1).replace(".*", ""));
+                            }
                             tmp = true;
                         }
                     }
@@ -586,6 +589,9 @@ public class ImportarPresenter {
                     for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
                         if (linha.getValue().replace("\n", "").trim().matches(t2)) {
                             pagina.addMarcador(linha.getKey());
+                            if (view.getExcluir_titulos().isSelected()) {
+                                contexto.tapar(linha.getKey(), (t2).replace(".*", ""));
+                            }
                             tmp = true;
                         }
                     }
@@ -596,6 +602,9 @@ public class ImportarPresenter {
                     for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
                         if (linha.getValue().replace("\n", "").trim().matches(esperando_q ? t1 : t2)) {
                             pagina.addMarcador(linha.getKey());
+                            if (view.getExcluir_titulos().isSelected()) {
+                                contexto.tapar(linha.getKey(), (esperando_q ? t1 : t2).replace(".*", ""));
+                            }
                             esperando_q = !esperando_q;
                             tmp = true;
                         }
@@ -607,7 +616,6 @@ public class ImportarPresenter {
                 if (view.getExcluir_parte_branca().isSelected()) {
                     pagina.eliminarFim();
                 }
-                separado_por_regex = true;
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view, "Ocorreu em erro: " + e);
@@ -640,6 +648,7 @@ public class ImportarPresenter {
         view.getAplicar_btn().setEnabled(enable);
         view.getNome_da_prova().setEnabled(enable);
         view.getComo_fazer_isso().setEnabled(enable);
+        view.getExcluir_titulos().setEnabled(enable);
     }
 
     boolean esta_partido_ok() {
@@ -791,10 +800,6 @@ public class ImportarPresenter {
         view.getProgressbar().setValue(cont);
         for (Questao questao : todas_questoes) {
 
-            if (!questao.isRegex()) {
-                separado_por_regex = false;
-            }
-
             cont++;
             if (!importaQuestao(
                     questao,
@@ -821,12 +826,6 @@ public class ImportarPresenter {
         }
 
         enableControls(true);
-
-        if (separado_por_regex) {
-            workDir.getProperties().addProvaComRegex(tipo,
-                    view.getModelo_de_inicio_de_questao().getText(),
-                    view.getModelo_de_inicio_de_gabarito().getText());
-        }
 
         arquivos.forEach((pdf) -> {
             pdf.close();

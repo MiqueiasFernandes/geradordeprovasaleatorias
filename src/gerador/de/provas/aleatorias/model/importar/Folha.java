@@ -63,10 +63,21 @@ public class Folha extends JLabel {
         if (pagina != null) {
             int w = (int) (getHeight() / 1.4);
             int h = getHeight();
+            int pad = (getWidth() - w) / 2;
             g.drawImage(
                     pagina.getImage()
                             .getScaledInstance(w, h, Image.SCALE_FAST),
-                    (getWidth() - w) / 2, 0, w, h, null);
+                    pad, 0, w, h, null);
+
+            for (Float[] area : pagina.getAreas_a_tapar()) {
+                setTransparency10(Color.WHITE, 70, g);
+                g.fillRect(
+                        pad + pagina.getContexto().yimage2Yview(pagina.getContexto().yPDF2Yimage(area[0])),
+                        pagina.getContexto().yimage2Yview(pagina.getContexto().yPDF2Yimage(area[1])),
+                        pagina.getContexto().yimage2Yview(pagina.getContexto().yPDF2Yimage(area[2])),
+                        pagina.getContexto().yimage2Yview(pagina.getContexto().yPDF2Yimage(area[3]))
+                );
+            }
 
             for (Marcador marcador : pagina.getMarcadores()) {
                 Area area = marcador.getArea();
@@ -93,6 +104,7 @@ public class Folha extends JLabel {
             g.setColor(Color.red);
             g.drawLine(0, y, getWidth(), y);
             g.drawString(Integer.toString(y), getWidth() - 25, y - 10);
+
         }
     }
 

@@ -46,14 +46,6 @@ public class BancoDeProvas {
         return workDir.getNumGabaritos();
     }
 
-    public boolean hasRegex(String tipo) {
-        return workDir.getProperties().hasRegex(tipo);
-    }
-
-    public String[] getRegexOf(String tipo) {
-        return workDir.getProperties().getRegexOfTipo(tipo);
-    }
-
     public String[] getTiposDeProvas() {
         return workDir.getTiposdeProvas();
     }

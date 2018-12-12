@@ -11,11 +11,13 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
@@ -36,6 +38,7 @@ public class Pagina extends PDFTextStripper {
     private final TreeSet<Marcador> marcadores;
     ModoPagina modoPagina;
     private List<Integer> questao_excluida;
+    private ArrayList<Float[]> areas_a_tapar = new ArrayList<>();
 
     public Pagina(PDF pdf, PDPage pDPage, BufferedImage image, int index, int index_global) throws IOException {
         this.pdf = pdf;
@@ -203,6 +206,14 @@ public class Pagina extends PDFTextStripper {
 
     public void savePartAsPDF(float[] bounds, String local) throws IOException {
 
+        try (PDPageContentStream contentStream = new PDPageContentStream(document, pDPage, PDPageContentStream.AppendMode.APPEND, false)) {
+            contentStream.setNonStrokingColor(Color.WHITE);
+            for (Float[] area : areas_a_tapar) {
+                contentStream.addRect(area[0], pDPage.getMediaBox().getHeight() - area[1] - area[3], area[2], area[3]);
+                contentStream.fill();
+            }
+        }
+
         PDRectangle mediaBox = pDPage.getMediaBox();
 
         PDRectangle box = new PDRectangle(bounds[0], mediaBox.getHeight() - bounds[1] - bounds[3], bounds[2], bounds[3]);
@@ -219,6 +230,18 @@ public class Pagina extends PDFTextStripper {
 
         pDPage.setMediaBox(mediaBox);
 
+    }
+
+    public void addAreaATapar(Float[] area) {
+        this.areas_a_tapar.add(area);
+    }
+
+    public void resetAreaATapar() {
+        this.areas_a_tapar.clear();
+    }
+
+    public List<Float[]> getAreas_a_tapar() {
+        return areas_a_tapar;
     }
 
 }

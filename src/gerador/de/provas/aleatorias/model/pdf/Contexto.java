@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.TextPosition;
@@ -69,12 +71,12 @@ class PointInLine {
             if (tmp.isEmpty()) {
                 x_ = w.line.x;
             } else if (w.word.matches(regex) && !tmp.replaceAll(regex, "").isEmpty()) {
-                arr.add(new WordPosition(tmp.replaceAll(regex, ""), w.page, new PointInLine(x_, y, page), w.height));
+                arr.add(new WordPosition(tmp.replaceAll(regex, ""), w.page, new PointInLine(x_, y, page), w.height, w.width));
                 tmp = "";
                 x_ = this.x;
             }
         }
-        arr.add(new WordPosition("\n", p.get(0).page, this, -1));
+        arr.add(new WordPosition("\n", p.get(0).page, this, -1, 1));
         return arr;
     }
 
@@ -86,12 +88,14 @@ class WordPosition {
     int page;
     PointInLine line;
     float height;
+    float width;
 
-    public WordPosition(String word, int page, PointInLine line, float height) {
+    public WordPosition(String word, int page, PointInLine line, float height, float width) {
         this.word = word;
         this.page = page;
         this.line = line;
         this.height = height;
+        this.width = width;
     }
 
     public float startY() {
@@ -111,8 +115,9 @@ public class Contexto {
     private final ArrayList<WordPosition> palavras = new ArrayList();
     private final HashSet<Float> y_linhas = new HashSet();
     private Float[] y_linhas_sorted;
-    private final ArrayList<List<WordPosition>> linhas = new ArrayList();
     private final SortedMap<Float, String> texto = new TreeMap<>();
+    private final SortedMap<Float, List<WordPosition>> posicoes = new TreeMap<>();
+    private final SortedMap<Float, Float> minimo = new TreeMap<>();
     private final float pdf_height;
     private final float pdf_height_ratio;
     private final float image_height;
@@ -134,21 +139,35 @@ public class Contexto {
         y_linhas_sorted = y_linhas.toArray(new Float[]{});
         Arrays.sort(y_linhas_sorted);
         for (Float line : y_linhas_sorted) {
-            ArrayList<WordPosition> arr2 = new ArrayList();
-            arr2.addAll(palavras);
-            List<WordPosition> inLine = new PointInLine(0, line, pagina.getIndex()).inLine(arr2);
-            linhas.add(inLine);
+            List<WordPosition> inLine = getLine(line);
             texto.put(inLine.get(0).startY(), String.join(" ", inLine.stream().map((t) -> {
                 return t.word;
             }).collect(Collectors.toList())));
-            palavras.removeAll(arr2);
+            posicoes.put(inLine.get(0).startY(), inLine);
+            float x = -1;
+            for (WordPosition palavra : palavras) {
+                if (palavra.line.y == line && palavra.line.x < x || x < 0) {
+                    x = palavra.line.x;
+                }
+            }
+            minimo.put(inLine.get(0).startY(), x);
+            palavras.removeAll(inLine);
         }
+    }
+
+    private List<WordPosition> getLine(Float line) {
+        return new PointInLine(0, line, pagina.getIndex()).inLine(new ArrayList(palavras));
     }
 
     public void setTextPosition(TextPosition text) {
         String u = text.getUnicode();
         if (u.matches("\\p{L}|\\p{Print}")) {
-            palavras.add(new WordPosition(u, pagina.getIndex(), new PointInLine(text.getX(), text.getY(), pagina.getIndex()), text.getFontSize()));
+            palavras.add(new WordPosition(
+                    u,
+                    pagina.getIndex(),
+                    new PointInLine(text.getX(), text.getY(), pagina.getIndex()),
+                    text.getFontSize(),
+                    text.getWidth()));
             y_linhas.add(text.getY());
         }
     }
@@ -193,6 +212,48 @@ public class Contexto {
 
     public SortedMap<Float, String> getTexto() {
         return texto;
+    }
+
+    //// x   y   width height
+    public Float[] getRect(Float y, String regex) {
+        try {
+            Float[] ret = new Float[4];
+            List<WordPosition> line = posicoes.get(y);
+            ret[3] = line.get(0).height;
+            ret[1] = line.get(0).line.y - ret[3];
+            ret[3] = line.get(0).height * 1.3f;
+            String text = String.join(" ", line.stream().map((t) -> {
+                return t.word;
+            }).collect(Collectors.toList()));
+
+            Pattern word = Pattern.compile(regex);
+            Matcher match = word.matcher(text);
+            int end = -1;
+            while (match.find()) {
+                end = text.substring(0, match.end()).split(" ").length;
+            }
+            if (end < 0) {
+                return null;
+            }
+            end = Math.min(line.size(), end);
+            ret[0] = ret[2] = minimo.get(y);
+            for (int i = 0; i < end; i++) {
+                ret[2] += line.get(i).width;
+            }
+            return ret;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public boolean tapar(Float linha, String regex) {
+
+        Float[] local = getRect(linha, regex);
+        if (local != null) {
+            pagina.addAreaATapar(local);
+            return true;
+        }
+        return false;
     }
 
 }
