@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Properties;
 import java.util.Random;
-import sun.misc.BASE64Encoder;
 
 /**
  *

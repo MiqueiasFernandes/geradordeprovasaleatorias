@@ -22,11 +22,13 @@ import java.util.stream.Collectors;
 class QuestaoDaProva {
 
     String nome_da_prova;
+    int ordem;
     Integer[] questoes;
 
-    public QuestaoDaProva(String nome_da_prova, Integer[] questoes) {
+    public QuestaoDaProva(String nome_da_prova, Integer[] questoes, int ordem) {
         this.nome_da_prova = nome_da_prova;
         this.questoes = questoes;
+        this.ordem = ordem;
     }
 
 }
@@ -56,13 +58,14 @@ public class Prova {
             sc.nextLine();
             int ln = 4;
             int idprova = 0;
+            int ordem = 0;
             try {
                 while (sc.hasNextLine()) {
                     String linha = sc.nextLine();
                     ln++;
                     if (linha.startsWith("#")) {
                         if (questoes.size() > 0) {
-                            sub_provas[idprova -1] = new Prova(this, idprova);
+                            sub_provas[idprova - 1] = new Prova(this, idprova);
                             questoes.clear();
                         }
                         if ("#".equals(linha)) {
@@ -80,13 +83,14 @@ public class Prova {
                                     return Integer.parseInt(t);
                                 }).collect(Collectors.toList()).toArray(new Integer[]{}) : new Integer[]{};
                         questoes.add(new QuestaoDaProva(linha,
-                                qst));
+                                qst, ordem++));
                     }
                 }
             } catch (Exception e) {
                 throw new Exception("Arquivo de prova com erro de formatação " + prova.getAbsolutePath() + " na linha " + ln);
             }
         }
+        ordenar();
     }
 
     private Prova(Prova mae, int sub_prova) {
@@ -97,6 +101,7 @@ public class Prova {
         this.cabecalho_is_file = mae.cabecalho_is_file;
         this.cabecalho = mae.cabecalho;
         this.quantidade_de_sub_provas = mae.quantidade_de_sub_provas;
+        ordenar();
     }
 
     public Prova(File prova, int sub_prova) throws Exception {
@@ -112,6 +117,7 @@ public class Prova {
             sc.nextLine();
             int ln = 4;
             int idprova = 0;
+            int ordem = 0;
             try {
                 while (sc.hasNextLine()) {
                     String linha = sc.nextLine();
@@ -134,13 +140,20 @@ public class Prova {
                                     return Integer.parseInt(t);
                                 }).collect(Collectors.toList()).toArray(new Integer[]{}) : new Integer[]{};
                         questoes.add(new QuestaoDaProva(linha,
-                                qst));
+                                qst, ordem++));
                     }
                 }
             } catch (Exception e) {
                 throw new Exception("Arquivo de prova com erro de formatação " + prova.getAbsolutePath() + " na linha " + ln);
             }
         }
+        ordenar();
+    }
+
+    private void ordenar() {
+        questoes.sort((o1, o2) -> {
+            return o1.ordem - o2.ordem; //To change body of generated lambdas, choose Tools | Templates.
+        });
     }
 
     public void salvar() throws IOException {
@@ -154,9 +167,21 @@ public class Prova {
             writer.write("#");
         }
         writer.write(Math.abs(sub_prova) + "\n");
+
+        int ate = 0;
+        int de = 9999999;
         for (QuestaoDaProva questao : questoes) {
-            writer.write(questao.nome_da_prova + "\n");
-            writer.write(Arrays.toString(questao.questoes).replace("[", " ").replace("]", " ").replace(",", "") + "\n");
+            ate = Math.max(ate, questao.ordem);
+            de = Math.min(de, questao.ordem);
+        }
+        for (int i = de - 1; i <= ate; i++) {
+            for (QuestaoDaProva questao : questoes) {
+                if (questao.ordem == i) {
+                    writer.write(questao.nome_da_prova + "\n");
+                    writer.write(Arrays.toString(questao.questoes)
+                            .replace("[", " ").replace("]", " ").replace(",", "") + "\n");
+                }
+            }
         }
         writer.write("#");
         writer.close();
@@ -198,8 +223,9 @@ public class Prova {
         this.quantidade_de_sub_provas = quantidade_de_sub_provas;
     }
 
-    public void addQuestoes(String nome_da_prova, Integer[] qst) {
-        questoes.add(new QuestaoDaProva(nome_da_prova, qst));
+    public void addQuestoes(String nome_da_prova, Integer[] qst, int ordem) {
+        questoes.add(new QuestaoDaProva(nome_da_prova, qst, ordem));
+        ordenar();
     }
 
     public int total() {

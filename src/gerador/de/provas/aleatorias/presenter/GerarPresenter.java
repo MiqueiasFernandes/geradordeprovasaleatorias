@@ -106,6 +106,8 @@ public class GerarPresenter {
             salvar();
         });
 
+        view.getNome_da_prova_txt().setText(getNomeDef());
+
         view.setVisible(true);
     }
 
@@ -142,8 +144,12 @@ public class GerarPresenter {
         }
     }
 
+    String getNomeDef() {
+        return "Prova " + Utils.getDateTime();
+    }
+
     void limpar() {
-        view.getNome_da_prova_txt().setText("");
+        view.getNome_da_prova_txt().setText(getNomeDef());
         view.getQuantidade_provas_num().setValue(0);
         view.getQuantidade_questoes_num().setValue(0);
         view.getQuestao_aparecer_chk().setSelected(false);
@@ -379,11 +385,24 @@ public class GerarPresenter {
                             qst.add(i + 1);
                         }
                     }
-                    prova_gerada.addQuestoes(tipo_de_prova, qst.toArray(new Integer[]{}));
+
+                    Integer[] shuff = new Integer[qst.size()];
+                    for (int i = 0; i < shuff.length; i++) {
+                        Integer rm = qst.get(Singleton.getInstance().getNextRandomInt(qst.size()));
+                        shuff[i] = rm;
+                        qst.remove(rm);
+                    }
+
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        if (model.getValueAt(i, 0).equals(tipo_de_prova)) {
+                            prova_gerada.addQuestoes(
+                                    tipo_de_prova,
+                                    shuff,
+                                    (int) model.getValueAt(i, 3));
+                        }
+                    }
                 }
-
                 provas_geradas.add(prova_gerada);
-
             }
 
             view.getLog().setText("");
@@ -414,16 +433,6 @@ public class GerarPresenter {
             });
         }
 
-    }
-
-    private String[] tipos_a_usar() {
-        ArrayList<String> tps = new ArrayList<>();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            if (((int) model.getValueAt(i, 1)) > 0) {
-                tps.add((String) model.getValueAt(i, 0));
-            }
-        }
-        return tps.toArray(new String[]{});
     }
 
     private int getNumQstSelecionadas() {
@@ -475,9 +484,13 @@ public class GerarPresenter {
                         .setText("Todas provas geradas foram importadas com sucesso...");
             } else if (local != null) {
                 local.delete();
+                view.getLog()
+                        .setText("A prova foi excluída porque não pode ser importada ...");
             }
         } else if (local != null) {
             local.delete();
+            view.getLog()
+                    .setText("A prova foi excluída porque não pode ser salva ...");
         }
     }
 
