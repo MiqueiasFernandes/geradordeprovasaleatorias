@@ -386,6 +386,7 @@ public class GerarPresenter {
 
             }
 
+            view.getLog().setText("");
             provas_geradas.forEach((prova_gerada) -> {
                 view.getLog().setText(view.getLog().getText() + prova_gerada.toString() + "\n");
             });
@@ -437,13 +438,12 @@ public class GerarPresenter {
     }
 
     private void salvar() {
+        String[] strs = view.getLog().getText().split("\n");
         view.getLog().setText("Salvando provas ...");
         boolean falhou = false;
         File local = null;
-        int qst = 0;
         for (Prova prova : provas_geradas) {
             local = new File(prova.getFile().getAbsolutePath());
-            qst = prova.getQuantidade_de_sub_provas();
             try {
                 prova.salvar();
             } catch (IOException ex) {
@@ -457,15 +457,18 @@ public class GerarPresenter {
         if (!falhou) {
             view.getLog()
                     .setText("Todas provas foram salvas com sucesso...");
-            for (int i = 1; i <= qst; i++) {
-                try {
-                    Prova prova = new Prova(local, i);
+            try {
+                Prova prova = new Prova(local);
+                for (Prova sub_prova : prova.getSub_provas()) {
                     view.getLog()
-                            .setText(view.getLog().getText() + "\n" + prova.toString());
-                } catch (Exception ex) {
-                    falhou = true;
-                    Logger.getLogger(GerarPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                            .setText(view.getLog().getText() + "\n" + sub_prova.toString());
+                    if (!strs[sub_prova.getSub_prova() - 1].equals(sub_prova.toString())) {
+                        throw new Exception("Prova " + strs[sub_prova.getSub_prova()] + " != " + sub_prova.toString());
+                    }
                 }
+            } catch (Exception ex) {
+                falhou = true;
+                Logger.getLogger(GerarPresenter.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (!falhou) {
                 view.getLog()

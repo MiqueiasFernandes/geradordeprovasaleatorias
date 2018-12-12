@@ -34,13 +34,70 @@ class QuestaoDaProva {
 public class Prova {
 
     private final File file;
-    private final int sub_prova;
+    private int sub_prova;
     private String nome;
     private boolean cabecalho_is_file;
     private String cabecalho;
     private int quantidade_de_sub_provas = 1;
 
     ArrayList<QuestaoDaProva> questoes = new ArrayList<>();
+    Prova[] sub_provas = null;
+
+    public Prova(File prova) throws Exception {
+        this.file = prova;
+        if (file.exists()) {
+            Scanner sc = new Scanner(file);
+            nome = sc.nextLine();
+            cabecalho_is_file = sc.nextBoolean();
+            sc.nextLine();
+            cabecalho = sc.nextLine();
+            quantidade_de_sub_provas = sc.nextInt();
+            sub_provas = new Prova[quantidade_de_sub_provas];
+            sc.nextLine();
+            int ln = 4;
+            int idprova = 0;
+            try {
+                while (sc.hasNextLine()) {
+                    String linha = sc.nextLine();
+                    ln++;
+                    if (linha.startsWith("#")) {
+                        if (questoes.size() > 0) {
+                            sub_provas[idprova -1] = new Prova(this, idprova);
+                            questoes.clear();
+                        }
+                        if ("#".equals(linha)) {
+                            if (idprova != quantidade_de_sub_provas) {
+                                throw new Exception("Arquivo de prova invalido");
+                            }
+                            break;
+                        }
+                        idprova = Integer.parseInt(linha.substring(1));
+                    } else {
+                        String nbrs = sc.nextLine().trim();
+                        ln++;
+                        Integer[] qst = (nbrs != null && !nbrs.isEmpty() && nbrs.split(" ").length > 0)
+                                ? Arrays.asList(nbrs.split(" ")).stream().map((t) -> {
+                                    return Integer.parseInt(t);
+                                }).collect(Collectors.toList()).toArray(new Integer[]{}) : new Integer[]{};
+                        questoes.add(new QuestaoDaProva(linha,
+                                qst));
+                    }
+                }
+            } catch (Exception e) {
+                throw new Exception("Arquivo de prova com erro de formatação " + prova.getAbsolutePath() + " na linha " + ln);
+            }
+        }
+    }
+
+    private Prova(Prova mae, int sub_prova) {
+        this.file = mae.file;
+        this.sub_prova = sub_prova;
+        this.questoes.addAll(mae.questoes);
+        this.nome = mae.nome;
+        this.cabecalho_is_file = mae.cabecalho_is_file;
+        this.cabecalho = mae.cabecalho;
+        this.quantidade_de_sub_provas = mae.quantidade_de_sub_provas;
+    }
 
     public Prova(File prova, int sub_prova) throws Exception {
         this.file = prova;
@@ -107,6 +164,10 @@ public class Prova {
 
     public int getSub_prova() {
         return Math.abs(sub_prova);
+    }
+
+    public Prova[] getSub_provas() {
+        return sub_provas;
     }
 
     public boolean isCabecalho_is_file() {

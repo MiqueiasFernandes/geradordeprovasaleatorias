@@ -79,7 +79,7 @@ public class BancoDeProvas {
         for (File prova : provasGeradas) {
             if (prova.getName().equals(name)) {
                 try {
-                    return new Prova(prova, 0);
+                    return new Prova(prova);
                 } catch (Exception ex) {
                     Logger.getLogger(BancoDeProvas.class.getName()).log(Level.SEVERE, null, ex);
                     return null;
