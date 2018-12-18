@@ -548,30 +548,35 @@ public class ImportarPresenter {
 
         String t1 = view.getModelo_de_inicio_de_questao().getText();
         String t2 = view.getModelo_de_inicio_de_gabarito().getText();
-
+        boolean tmp = false;
         if (tudo) {
             for (PDF pdf : arquivos) {
-                pdf.getPages().forEach((t) -> {
-                    processaPagina(t, t1, t2);
-                });
+                for (Pagina page : pdf.getPages()) {
+                    tmp = processaPagina(page, t1, t2);
+                }
             }
         } else if (tudo_do_arquivo) {
-            current.getPdf().getPages().forEach((t) -> {
-                processaPagina(t, t1, t2);
-            });
+            for (Pagina page : current.getPdf().getPages()) {
+                tmp = processaPagina(page, t1, t2);
+            }
         } else {
-            processaPagina(current, t1, t2);
+            tmp = processaPagina(current, t1, t2);
+        }
+
+        if (!tmp) {
+            JOptionPane.showMessageDialog(view, "Nada foi encontrado!\n"
+                    + "Talvez seja necessário abrir este pdf no WORD primeiro.");
         }
 
         update();
     }
 
-    void processaPagina(Pagina pagina, String t1, String t2) {
+    boolean processaPagina(Pagina pagina, String t1, String t2) {
         enableControls(false);
         pagina.resetAreaATapar();
+        boolean tmp = false;
         try {
             Contexto contexto = pagina.getContexto();
-            boolean tmp = false;
             switch (pagina.getModoPagina()) {
                 case QUESTAO: {
                     for (Map.Entry<Float, String> linha : contexto.getTexto().entrySet()) {
@@ -622,6 +627,8 @@ public class ImportarPresenter {
         } finally {
             enableControls(true);
         }
+
+        return tmp;
     }
 
     private void enableControls(boolean enable) {

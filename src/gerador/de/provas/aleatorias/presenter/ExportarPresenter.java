@@ -488,6 +488,7 @@ public class ExportarPresenter implements IObservable {
                         new File(path.getAbsolutePath() + "/" + file.getName()).toPath(),
                         StandardCopyOption.REPLACE_EXISTING);
             }
+            JOptionPane.showMessageDialog(view, "Os arquivos foram salvos com sucesso!");
         } catch (IOException ex) {
             Logger.getLogger(ExportarPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }

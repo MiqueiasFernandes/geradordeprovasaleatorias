@@ -1,10 +1,11 @@
-#Modificado em: 2018-12-16T09:28:45.758
-#Sun Dec 16 09:28:45 BRST 2018
-WORK_DIR=gpa/
+#Modificado em: 2018-12-18T01:22:13.354
+#Tue Dec 18 01:22:13 BRST 2018
+SAVE_FILES=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho
 TMP_DIR=gpa/tmp/
-ZIP_PATH=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho\\banco de provas.gpa
-QUESTOES_DIR=gpa/questoes/
-CABECALHOS_DIR=gpa/provas/cabecalhos
-LOCAL_PROPERTIES=gpa/DATA
-PROVAS_DIR=gpa/provas
 GABARITOS_DIR=gpa/gabaritos/
+QUESTOES_DIR=gpa/questoes/
+PROVAS_DIR=gpa/provas
+CABECALHOS_DIR=gpa/provas/cabecalhos
+ZIP_PATH=C\:\\Users\\conta\\OneDrive\\\u00C1rea de Trabalho\\banco de provas.gpa
+LOCAL_PROPERTIES=gpa/DATA
+WORK_DIR=gpa/
