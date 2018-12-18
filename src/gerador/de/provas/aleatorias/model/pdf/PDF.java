@@ -14,7 +14,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JProgressBar;
+import org.apache.fontbox.util.BoundingBox;
+import org.apache.pdfbox.cos.COSDictionary;
+import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
@@ -45,17 +54,18 @@ public class PDF {
 
         pdfRenderer = new PDFRenderer(document);
 
-        progress.setMinimum(0);
-        progress.setMaximum(100);
         for (int page = 0; page < nPaginas; ++page) {
-            progress.setValue(page * 100 / nPaginas);
+            if (progress != null) {
+                progress.setValue(page * 100 / nPaginas);
+            }
             pages.add(new Pagina(
                     this,
                     document.getPage(page),
                     pdfRenderer.renderImageWithDPI(page, DPI, ImageType.RGB), page, start + page));
         }
-
-        progress.setValue(100);
+        if (progress != null) {
+            progress.setValue(100);
+        }
     }
 
     public File getFile() {
@@ -90,6 +100,81 @@ public class PDF {
         } catch (IOException ex) {
             Logger.getLogger(PDF.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static boolean createTextPDF(
+            String arquivo,
+            String[] text,
+            int pad,
+            PDType1Font font,
+            int size,
+            boolean clear) throws IOException {
+        File file = new File(arquivo);
+        try (PDDocument pdf = new PDDocument()) {
+
+            PDRectangle frame = new PDRectangle(PDRectangle.A4.getWidth(), PDRectangle.A4.getHeight());
+
+            // Create output page with calculated frame and add it to the document
+            COSDictionary dict = new COSDictionary();
+            dict.setItem(COSName.TYPE, COSName.PAGE);
+            dict.setItem(COSName.MEDIA_BOX, frame);
+            dict.setItem(COSName.CROP_BOX, frame);
+            dict.setItem(COSName.ART_BOX, frame);
+
+            PDPage page = new PDPage(dict);
+            float y;
+
+            //Setting the font to the Content stream
+            try (PDPageContentStream contentStream = new PDPageContentStream(pdf, page)) {
+                //Setting the font to the Content stream
+                contentStream.setFont(font, size);
+
+                //Adding text in the form of string
+                y = frame.getHeight() - size;
+                for (String line : text) {
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(pad, (y -= size));
+                    contentStream.showText(line);
+                    contentStream.endText();
+                }
+            }
+
+            if (clear && y > 0) {
+                page.setMediaBox(new PDRectangle(
+                        new BoundingBox(0, PDRectangle.A4.getHeight(), PDRectangle.A4.getWidth(), y - (size / 3))
+                ));
+            }
+            pdf.addPage(page);
+            pdf.save(arquivo);
+        }
+
+        return file.exists();
+    }
+
+    public static File mergePDFs(File[] pdfs, String out) {
+        try {
+            PDFMergerUtility PDFmerger = new PDFMergerUtility();
+            PDFmerger.setDestinationFileName(out);
+
+            ArrayList<PDDocument> docs = new ArrayList<>();
+
+            for (File pdf : pdfs) {
+                docs.add(PDDocument.load(pdf));
+                PDFmerger.addSource(pdf);
+            }
+
+            PDFmerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+
+            //Closing the documents
+            for (PDDocument doc : docs) {
+                doc.close();
+            }
+
+            return new File(out);
+        } catch (IOException ex) {
+            Logger.getLogger(PDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

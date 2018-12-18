@@ -7,8 +7,11 @@ package gerador.de.provas.aleatorias.model;
 
 import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -96,6 +99,39 @@ public class BancoDeProvas {
     @Override
     public String toString() {
         return zip.getName().replace(".gpa", "") + " em " + zip.getAbsolutePath().replace(zip.getName(), "");
+    }
+
+    public Prova[] getProvasGeradas(JProgressBar progress) throws Exception {
+        ArrayList<Prova> provas = new ArrayList<>();
+        progress.setValue(0);
+        File[] provasGeradas = workDir.getProvasGeradas();
+        progress.setValue(10);
+        int p = 90 / provasGeradas.length;
+        int c = 0;
+        for (File prova : provasGeradas) {
+            provas.add(new Prova(prova));
+            progress.setValue(10 + (p * ++c));
+        }
+        return provas.toArray(new Prova[]{});
+    }
+
+    public File getQuestao(String tipo_de_prova, Integer questao) {
+        File qst = new File(workDir.getProperties().getQUESTOES_DIR() + "/" + tipo_de_prova + "/" + questao + ".pdf");
+        return qst.exists() ? qst : null;
+    }
+
+    public File getGabarito(String tipo_de_prova, Integer gabarito) {
+        File gab = new File(workDir.getProperties().getGABARITOS_DIR() + "/" + tipo_de_prova + "/" + gabarito + ".pdf");
+        return gab.exists() ? gab : null;
+    }
+
+    public File getCabecalho(String cabecalho) {
+        File cab = new File(workDir.getProperties().getCABECALHOS_DIR() + "/" + cabecalho);
+        return cab.exists() ? cab : null;
+    }
+
+    public String getTmpDir() throws IOException {
+        return workDir.getTemp();
     }
 
 }

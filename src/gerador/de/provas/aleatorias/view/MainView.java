@@ -6,7 +6,11 @@
 package gerador.de.provas.aleatorias.view;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
@@ -25,6 +29,15 @@ public class MainView extends javax.swing.JFrame {
         sair_menu.addActionListener((ActionEvent e) -> {
             this.dispose();
         });
+
+        try {
+            InputStream imgStream = getClass()
+                    .getResourceAsStream("/gerador/de/provas/aleatorias/view/imgs/Elegant_circle-icons-78.png");
+            setIconImage(ImageIO.read(imgStream));
+        } catch (IOException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public JMenuItem getExportar_provas_menu() {
@@ -105,9 +118,10 @@ public class MainView extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gerador de Provas Aleatórias");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/Elegant_circle-icons-78.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
+        jLabel1.setToolTipText("");
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);

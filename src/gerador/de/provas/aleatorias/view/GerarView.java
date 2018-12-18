@@ -5,6 +5,11 @@
  */
 package gerador.de.provas.aleatorias.view;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -30,6 +35,14 @@ public class GerarView extends javax.swing.JFrame {
         initComponents();
         buttonGroup1.add(cabecalho_existente_radio);
         buttonGroup1.add(cabecalho_personalizado_radio);
+
+        try {
+            InputStream imgStream = getClass()
+                    .getResourceAsStream("/gerador/de/provas/aleatorias/view/imgs/Elegant_circle-icons-78.png");
+            setIconImage(ImageIO.read(imgStream));
+        } catch (IOException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public JRadioButton getCabecalho_existente_radio() {

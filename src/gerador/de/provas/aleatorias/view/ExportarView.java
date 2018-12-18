@@ -5,6 +5,24 @@
  */
 package gerador.de.provas.aleatorias.view;
 
+import gerador.de.provas.aleatorias.model.exportar.PaginaSubProva;
+import java.awt.Component;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+
 /**
  *
  * @author conta
@@ -16,6 +34,131 @@ public class ExportarView extends javax.swing.JFrame {
      */
     public ExportarView() {
         initComponents();
+
+        try {
+            InputStream imgStream = getClass()
+                    .getResourceAsStream("/gerador/de/provas/aleatorias/view/imgs/Elegant_circle-icons-78.png");
+            setIconImage(ImageIO.read(imgStream));
+        } catch (IOException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public JCheckBox getAgrupar_chk() {
+        return agrupar_chk;
+    }
+
+    public JButton getCarregar_btn() {
+        return carregar_btn;
+    }
+
+    public JButton getFirst_nav_btn() {
+        return first_nav_btn;
+    }
+
+    public JLabel getFolha_lbl() {
+        return folha_lbl;
+    }
+
+    public JComboBox<String> getFont_select() {
+        return font_select;
+    }
+
+    public JSpinner getFont_size_spn() {
+        return font_size_spn;
+    }
+
+    public JCheckBox getGerar_em_arquivo_unico_chk() {
+        return gerar_em_arquivo_unico_chk;
+    }
+
+    public JCheckBox getGerar_gabarito_chk() {
+        return gerar_gabarito_chk;
+    }
+
+    public JCheckBox getGerar_prova_chk() {
+        return gerar_prova_chk;
+    }
+
+    public JButton getLast_nav_btn() {
+        return last_nav_btn;
+    }
+
+    public JSpinner getMargem_cab_spn() {
+        return margem_cab_spn;
+    }
+
+    public JSpinner getMargem_questao_spn() {
+        return margem_questao_spn;
+    }
+
+    public JButton getNext_nav_btn() {
+        return next_nav_btn;
+    }
+
+    public JLabel getPage_nav_lbl() {
+        return page_nav_lbl;
+    }
+
+    public PaginaSubProva getPaginaSubProva() {
+        return (PaginaSubProva) pagina_lbl;
+    }
+
+    public JCheckBox getPaginar_chk() {
+        return paginar_chk;
+    }
+
+    public JButton getPrev_nav_btn() {
+        return prev_nav_btn;
+    }
+
+    public JProgressBar getProgressbar() {
+        return progressbar;
+    }
+
+    public JScrollPane getProva_select() {
+        return prova_select;
+    }
+
+    public JButton getSalvar_btn() {
+        return salvar_btn;
+    }
+
+    public JTextField getText_gabarito_txt() {
+        return text_gabarito_txt;
+    }
+
+    public JTextField getText_questao_txt() {
+        return text_questao_txt;
+    }
+
+    public JSpinner getTipo_nav_spn() {
+        return tipo_nav_spn;
+    }
+
+    public JList<String> getProva_list() {
+        return prova_list;
+    }
+
+    public JButton getSalvar_subprova_btn() {
+        return salvar_subprova_btn;
+    }
+
+    public JToggleButton getNegrito_btn() {
+        return negrito_btn;
+    }
+
+    public JCheckBox getCab_no_gab_chk() {
+        return cab_no_gab_chk;
+    }
+
+    public JButton getEditar_btn() {
+        return editar_btn;
+    }
+
+    public Component[] getConfiguracoes_pnl() {
+        return new Component[]{configuracoes_pnl, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7};
     }
 
     /**
@@ -27,24 +170,370 @@ public class ExportarView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jToolBar1 = new javax.swing.JToolBar();
+        jLabel1 = new javax.swing.JLabel();
+        tipo_nav_spn = new javax.swing.JSpinner();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        folha_lbl = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        first_nav_btn = new javax.swing.JButton();
+        prev_nav_btn = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        page_nav_lbl = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        next_nav_btn = new javax.swing.JButton();
+        last_nav_btn = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        salvar_subprova_btn = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        gerar_em_arquivo_unico_chk = new javax.swing.JCheckBox();
+        salvar_btn = new javax.swing.JButton();
+        configuracoes_pnl = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        negrito_btn = new javax.swing.JToggleButton();
+        margem_questao_spn = new javax.swing.JSpinner();
+        paginar_chk = new javax.swing.JCheckBox();
+        jLabel6 = new javax.swing.JLabel();
+        gerar_prova_chk = new javax.swing.JCheckBox();
+        margem_cab_spn = new javax.swing.JSpinner();
+        cab_no_gab_chk = new javax.swing.JCheckBox();
+        gerar_gabarito_chk = new javax.swing.JCheckBox();
+        agrupar_chk = new javax.swing.JCheckBox();
+        font_select = new javax.swing.JComboBox<>();
+        text_questao_txt = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        font_size_spn = new javax.swing.JSpinner();
+        text_gabarito_txt = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        prova_select = new javax.swing.JScrollPane();
+        prova_list = new javax.swing.JList<>();
+        carregar_btn = new javax.swing.JButton();
+        editar_btn = new javax.swing.JButton();
+        progressbar = new javax.swing.JProgressBar();
+        pagina_lbl = pagina_lbl = new PaginaSubProva();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Exportar Provas");
+
+        jToolBar1.setRollover(true);
+
+        jLabel1.setText("Subprova");
+        jToolBar1.add(jLabel1);
+
+        tipo_nav_spn.setMaximumSize(new java.awt.Dimension(50, 32767));
+        jToolBar1.add(tipo_nav_spn);
+        jToolBar1.add(jSeparator2);
+
+        folha_lbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        folha_lbl.setText("...");
+        folha_lbl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        folha_lbl.setMaximumSize(new java.awt.Dimension(1000, 14));
+        folha_lbl.setMinimumSize(new java.awt.Dimension(200, 14));
+        folha_lbl.setVerifyInputWhenFocusTarget(false);
+        jToolBar1.add(folha_lbl);
+        jToolBar1.add(jSeparator1);
+
+        first_nav_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/first.png"))); // NOI18N
+        first_nav_btn.setToolTipText("ir à primeira página");
+        first_nav_btn.setFocusable(false);
+        first_nav_btn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        first_nav_btn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(first_nav_btn);
+
+        prev_nav_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/prev.png"))); // NOI18N
+        prev_nav_btn.setToolTipText("ir à página anterior");
+        prev_nav_btn.setFocusable(false);
+        prev_nav_btn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        prev_nav_btn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(prev_nav_btn);
+
+        jLabel10.setText("     ");
+        jToolBar1.add(jLabel10);
+
+        page_nav_lbl.setText("0 - 0");
+        jToolBar1.add(page_nav_lbl);
+
+        jLabel12.setText("     ");
+        jToolBar1.add(jLabel12);
+
+        next_nav_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/next.png"))); // NOI18N
+        next_nav_btn.setToolTipText("ir à próxima página");
+        next_nav_btn.setFocusable(false);
+        next_nav_btn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        next_nav_btn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(next_nav_btn);
+
+        last_nav_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerador/de/provas/aleatorias/view/imgs/last.png"))); // NOI18N
+        last_nav_btn.setToolTipText("ir à ultima página");
+        last_nav_btn.setFocusable(false);
+        last_nav_btn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        last_nav_btn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(last_nav_btn);
+        jToolBar1.add(jSeparator3);
+
+        salvar_subprova_btn.setText("Salvar Subprova");
+        jToolBar1.add(salvar_subprova_btn);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setPreferredSize(new java.awt.Dimension(650, 482));
+
+        gerar_em_arquivo_unico_chk.setText("Gerar em arquivo único");
+
+        salvar_btn.setText("Salvar Tudo");
+        salvar_btn.setToolTipText("");
+
+        configuracoes_pnl.setBorder(javax.swing.BorderFactory.createTitledBorder("Configurações"));
+
+        jLabel5.setText("Margem entre questões");
+
+        negrito_btn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        negrito_btn.setText("N");
+
+        paginar_chk.setSelected(true);
+        paginar_chk.setText("Paginar");
+
+        jLabel6.setText("Margem do cabeçalho");
+
+        gerar_prova_chk.setSelected(true);
+        gerar_prova_chk.setText("Gerar provas");
+
+        cab_no_gab_chk.setText("Cabeçalho no gabarito");
+
+        gerar_gabarito_chk.setSelected(true);
+        gerar_gabarito_chk.setText("Gerar gabaritos");
+
+        agrupar_chk.setText("Prova junto de gabarito");
+
+        font_select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Times", "Helvetica", "Courier" }));
+
+        text_questao_txt.setText("Questão #");
+
+        jLabel7.setText("Fonte");
+
+        jLabel3.setText("Texto da questão");
+
+        font_size_spn.setValue(12);
+
+        text_gabarito_txt.setText("Gabarito #");
+
+        jLabel4.setText("Texto do gabarito");
+
+        javax.swing.GroupLayout configuracoes_pnlLayout = new javax.swing.GroupLayout(configuracoes_pnl);
+        configuracoes_pnl.setLayout(configuracoes_pnlLayout);
+        configuracoes_pnlLayout.setHorizontalGroup(
+            configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(configuracoes_pnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configuracoes_pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(text_questao_txt)
+                        .addGap(90, 90, 90)
+                        .addComponent(gerar_prova_chk))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configuracoes_pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(text_gabarito_txt)
+                        .addGap(72, 72, 72)
+                        .addComponent(gerar_gabarito_chk))
+                    .addGroup(configuracoes_pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(margem_cab_spn, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 269, Short.MAX_VALUE)
+                        .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(paginar_chk, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cab_no_gab_chk, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(configuracoes_pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(font_select, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(font_size_spn, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(negrito_btn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(agrupar_chk))
+                    .addGroup(configuracoes_pnlLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(margem_questao_spn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        configuracoes_pnlLayout.setVerticalGroup(
+            configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(configuracoes_pnlLayout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gerar_prova_chk)
+                    .addComponent(jLabel3)
+                    .addComponent(text_questao_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gerar_gabarito_chk)
+                    .addComponent(jLabel4)
+                    .addComponent(text_gabarito_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(margem_questao_spn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paginar_chk))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(margem_cab_spn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cab_no_gab_chk))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(configuracoes_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(font_select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)
+                        .addComponent(font_size_spn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(negrito_btn))
+                    .addComponent(agrupar_chk)))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de prova"));
+
+        prova_list.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        prova_select.setViewportView(prova_list);
+
+        carregar_btn.setText("Carregar");
+
+        editar_btn.setText("Editar");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(prova_select)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(carregar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(prova_select, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(carregar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(gerar_em_arquivo_unico_chk)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(salvar_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(configuracoes_pnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(configuracoes_pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(salvar_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gerar_em_arquivo_unico_chk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pagina_lbl.setBackground(new java.awt.Color(204, 204, 204));
+        pagina_lbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pagina_lbl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pagina_lbl.setOpaque(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(pagina_lbl, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+                    .addComponent(progressbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(progressbar, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(pagina_lbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox agrupar_chk;
+    private javax.swing.JCheckBox cab_no_gab_chk;
+    private javax.swing.JButton carregar_btn;
+    private javax.swing.JPanel configuracoes_pnl;
+    private javax.swing.JButton editar_btn;
+    private javax.swing.JButton first_nav_btn;
+    private javax.swing.JLabel folha_lbl;
+    private javax.swing.JComboBox<String> font_select;
+    private javax.swing.JSpinner font_size_spn;
+    private javax.swing.JCheckBox gerar_em_arquivo_unico_chk;
+    private javax.swing.JCheckBox gerar_gabarito_chk;
+    private javax.swing.JCheckBox gerar_prova_chk;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JButton last_nav_btn;
+    private javax.swing.JSpinner margem_cab_spn;
+    private javax.swing.JSpinner margem_questao_spn;
+    private javax.swing.JToggleButton negrito_btn;
+    private javax.swing.JButton next_nav_btn;
+    private javax.swing.JLabel page_nav_lbl;
+    private javax.swing.JLabel pagina_lbl;
+    private javax.swing.JCheckBox paginar_chk;
+    private javax.swing.JButton prev_nav_btn;
+    private javax.swing.JProgressBar progressbar;
+    private javax.swing.JList<String> prova_list;
+    private javax.swing.JScrollPane prova_select;
+    private javax.swing.JButton salvar_btn;
+    private javax.swing.JButton salvar_subprova_btn;
+    private javax.swing.JTextField text_gabarito_txt;
+    private javax.swing.JTextField text_questao_txt;
+    private javax.swing.JSpinner tipo_nav_spn;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -236,6 +237,14 @@ public class Prova {
         return t;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCanonicalNome() {
+        return nome.replaceAll("\\W", "_");
+    }
+
     @Override
     public String toString() {
         return file.getName() + "(" + getSub_prova() + ") => " + Arrays.toString(questoes.stream().map((t) -> {
@@ -245,6 +254,16 @@ public class Prova {
 
     public File getFile() {
         return file;
+    }
+
+    public HashMap<String, Integer[]> getQuestoes() {
+        HashMap<String, Integer[]> hs = new HashMap<>();
+        for (QuestaoDaProva questao : questoes) {
+            if (questao.questoes.length > 0) {
+                hs.put(questao.nome_da_prova, questao.questoes);
+            }
+        }
+        return hs;
     }
 
 }

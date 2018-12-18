@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -314,4 +315,10 @@ public class WorkDir {
         return Utils.inArray(getTiposdeProvas(), tipo);
     }
 
+    public String getTemp() throws IOException {
+        return Files.createTempDirectory(
+                tmp_dir.toPath(),
+                Utils.getDateTime().replaceAll("\\W", "_")
+        ).toAbsolutePath().toString();
+    }
 }

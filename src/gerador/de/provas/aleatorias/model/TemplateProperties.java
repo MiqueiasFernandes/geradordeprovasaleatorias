@@ -28,6 +28,7 @@ public class TemplateProperties {
     private String QUESTOES_DIR = "gpa/questoes/";
     private String GABARITOS_DIR = "gpa/gabaritos/";
     private String ZIP_PATH = "";
+    private String SAVE_FILES = "";
 
     public TemplateProperties(String arquivo) {
         this.LOCAL_PROPERTIES = arquivo;
@@ -138,6 +139,15 @@ public class TemplateProperties {
 
     public void setZIP_PATH(String ZIP_PATH, Component view) throws Exception {
         this.ZIP_PATH = ZIP_PATH;
+        save(view);
+    }
+
+    public String getSAVE_FILES() {
+        return SAVE_FILES;
+    }
+
+    public void setSAVE_FILES(String SAVE_FILES, Component view) throws Exception {
+        this.SAVE_FILES = SAVE_FILES;
         save(view);
     }
 

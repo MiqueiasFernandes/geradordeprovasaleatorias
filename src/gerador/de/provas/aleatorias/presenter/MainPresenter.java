@@ -12,6 +12,7 @@ import gerador.de.provas.aleatorias.util.Janela;
 import gerador.de.provas.aleatorias.view.MainView;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -31,13 +32,6 @@ public class MainPresenter {
         this.properies = workDir.getProperties();
         this.workDir = workDir;
         view = new MainView();
-
-        new Thread(() -> {
-            verificar_se_tem_banco();
-            autoImportarBancoDeProvas();
-            verificar_se_tem_banco();
-            view.getCarregando_label().setVisible(false);
-        }).start();
 
         view.getNovo_banco_de_provas_menu().addActionListener((e) -> {
             criarBancoDeProvas();
@@ -71,8 +65,30 @@ public class MainPresenter {
             });
         }));
 
+        view.getExportar_provas_menu().addActionListener(((e) -> {
+            new ExportarPresenter(workDir, bancoDeProvas).getView().addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    try {
+                        workDir.limparTemp();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+        }));
+
         view.setVisible(true);
 
+    }
+
+    public void inicializar() {
+        new Thread(() -> {
+            verificar_se_tem_banco();
+            autoImportarBancoDeProvas();
+            verificar_se_tem_banco();
+            view.getCarregando_label().setVisible(false);
+        }).start();
     }
 
     void verificar_se_tem_banco() {
@@ -94,11 +110,11 @@ public class MainPresenter {
     }
 
     void autoImportarBancoDeProvas() {
-        view.setEnabled(false);
+        //  view.setEnabled(false);
         view.getLocal_prova_label().setText("Carregando banco de provas ...");
         view.getLocal_prova_label().setText(workDir.carregarBanco(view));
         updateBancoDeProvas();
-        view.setEnabled(true);
+        //  view.setEnabled(true);
     }
 
     void criarBancoDeProvas() {

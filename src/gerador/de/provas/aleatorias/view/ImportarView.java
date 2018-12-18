@@ -6,6 +6,11 @@
 package gerador.de.provas.aleatorias.view;
 
 import gerador.de.provas.aleatorias.model.importar.Folha;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,6 +35,14 @@ public class ImportarView extends javax.swing.JFrame {
         setTitle("Importar provas");
         buttonGroup1.add(gabarito_apos_cada_questao);
         buttonGroup1.add(gabarito_no_outro_arquivo);
+
+        try {
+            InputStream imgStream = getClass()
+                    .getResourceAsStream("/gerador/de/provas/aleatorias/view/imgs/Elegant_circle-icons-78.png");
+            setIconImage(ImageIO.read(imgStream));
+        } catch (IOException ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
